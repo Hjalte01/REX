@@ -6,7 +6,7 @@ Might have to fiddel with the last digit of the ip and use the
 ping <ip>
 ```
 
-command to find the correct ip-address to connect from the pc and robot.sss
+command to find the correct ip-address to connect from the pc and robot.
 
 ## Usefull information:
 
