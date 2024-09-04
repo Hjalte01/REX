@@ -18,7 +18,7 @@ rightSpeed = 40
 
 
 def forward(len):
-    distance = 3 * len # in meters
+    distance = 5 * len # in meters
 
     print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
     # Wait a bit while robot moves forward
@@ -47,7 +47,7 @@ def square():
         sleep(1)
 
 # call the square function
-square()
+forward(1)
 
 # send a stop command
 print(arlo.stop())
