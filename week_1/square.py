@@ -21,10 +21,11 @@ def forward(len):
     distance = 3 * len # in meters
 
     print(arlo.go_diff(leftSpeed/10, rightSpeed*2, 1, 1))
+    sleep(0.5)
 
     print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
     # Wait a bit while robot moves forward
-    sleep(0.5)
+    sleep(len)
 
     # send a stop command
     print(arlo.stop())
