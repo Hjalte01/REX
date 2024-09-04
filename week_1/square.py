@@ -69,7 +69,9 @@ def number_eight(time):
     right_forward_turn(time*1.03)
 
 
-number_eight(10)
+for i in range(3):
+    number_eight(10)
+    
 
 # send a stop command
 print(arlo.stop())
