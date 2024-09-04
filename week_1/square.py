@@ -64,11 +64,12 @@ def right_forward_turn(time):
     # Wait a bit while robot turns left
     sleep(time)
 
-# Left circle of the number 8
-# left_forward_turn(10)
+def number_eight(time):
+    left_forward_turn(time)
+    right_forward_turn(time)
 
-# Right circle of the number 8
-left_forward_turn(10)
+
+number_eight(10)
 
 # send a stop command
 print(arlo.stop())
