@@ -40,6 +40,8 @@ def turn_left(degree):
 def square():
     for i in range(4):
         forward(1)
+        print(arlo.stop())
+        sleep(1)
         turn_left(90)
 
 
