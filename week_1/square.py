@@ -28,7 +28,7 @@ def forward(len):
     print(arlo.stop())
 
 def turn_left(degree):
-    constant_90_degree = 0.96/ 90
+    constant_90_degree = 0.95 / 90
 
     # send a go_diff command to turn left
     print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
@@ -47,8 +47,7 @@ def square():
         sleep(1)
 
 # call the square function
-
-forward(3)
+square()
 
 # send a stop command
 print(arlo.stop())
