@@ -49,5 +49,18 @@ def square():
 # call the square function
 square()
 
+# The number 8
+def left_forward_turn(time):
+
+    # send a go_diff command to turn left
+    print(arlo.go_diff(leftSpeed, rightSpeed*3, 1, 1))
+
+    # Wait a bit while robot turns left
+    sleep(time)
+
+
+# Left circle of the number 8
+left_forward_turn(1)
+
 # send a stop command
 print(arlo.stop())
