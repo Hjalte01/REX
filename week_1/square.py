@@ -51,7 +51,7 @@ def square():
 def left_forward_turn(time):
 
     # send a go_diff command to turn left
-    print(arlo.go_diff(leftSpeed, rightSpeed*1.78, 1, 1))
+    print(arlo.go_diff(leftSpeed, rightSpeed*1.8, 1, 1))
 
     # Wait a bit while robot turns left
     sleep(time)
