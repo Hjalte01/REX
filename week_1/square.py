@@ -13,8 +13,8 @@ print("Running ...")
 left_motor_diff = 0.948
 
 # send a go_diff command to drive forward
-leftSpeed = 53*left_motor_diff
-rightSpeed = 53
+leftSpeed = 20*left_motor_diff
+rightSpeed = 20
 
 
 def forward(len):
