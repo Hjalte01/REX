@@ -25,7 +25,7 @@ def forward(len):
 
     print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
     # Wait a bit while robot moves forward
-    sleep(len)
+    sleep(distance)
 
     # send a stop command
     print(arlo.stop())
