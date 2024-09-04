@@ -10,7 +10,7 @@ sleep(2)
 
 print("Running ...")
 
-left_motor_diff = 0.92
+left_motor_diff = 0.90
 
 # send a go_diff command to drive forward
 leftSpeed = 40*left_motor_diff
@@ -47,7 +47,7 @@ def square():
         sleep(1)
 
 # call the square function
-square()
+forward(2)
 
 # send a stop command
 print(arlo.stop())
