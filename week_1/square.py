@@ -8,8 +8,8 @@ arlo = robot.Robot()
 print("Running ...")
 
 # send a go_diff command to drive forward
-leftSpeed = 64
-rightSpeed = 64
+leftSpeed = 48
+rightSpeed = 48
 print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
 
 # Wait a bit while robot moves forward
@@ -18,16 +18,16 @@ sleep(3)
 # send a stop command
 print(arlo.stop())
 
-# Wait a bit before next command
-sleep(0.041)
+# # Wait a bit before next command
+# sleep(0.041)
 
-# send a go_diff command to turn 90 degrees to the left
-leftSpeed = 64
-rightSpeed = 32
-print(arlo.go_diff(leftSpeed, rightSpeed, 1, 0))
+# # send a go_diff command to turn 90 degrees to the left
+# leftSpeed = 64
+# rightSpeed = 32
+# print(arlo.go_diff(leftSpeed, rightSpeed, 1, 0))
 
-# Wait a bit while robot turns
-sleep(3)
+# # Wait a bit while robot turns
+# sleep(3)
 
 # send a stop command
 print(arlo.stop())
