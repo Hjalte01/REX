@@ -58,7 +58,7 @@ def left_forward_turn(time):
 
 
 # Left circle of the number 8
-left_forward_turn(5)
+left_forward_turn(8)
 
 # send a stop command
 print(arlo.stop())
