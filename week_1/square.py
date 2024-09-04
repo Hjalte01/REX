@@ -59,7 +59,7 @@ def left_forward_turn(time):
 def right_forward_turn(time):
 
     # send a go_diff command to turn left
-    print(arlo.go_diff(leftSpeed*1.8, rightSpeed, 1, 1))
+    print(arlo.go_diff(leftSpeed*1.9, rightSpeed, 1, 1))
 
     # Wait a bit while robot turns left
     sleep(time)
