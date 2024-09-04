@@ -21,7 +21,7 @@ def forward(len):
     distance = 3 * len # in meters
 
     # acceleration configuration
-    print(arlo.go_diff(leftSpeed/10, rightSpeed/5, 1, 1))
+    print(arlo.go_diff(leftSpeed/100, rightSpeed/10, 1, 1))
     # Wait a bit while robot moves forward
     sleep(0.5)
 
