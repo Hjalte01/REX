@@ -66,7 +66,7 @@ def right_forward_turn(time):
 
 def number_eight(time):
     left_forward_turn(time)
-    right_forward_turn(time)
+    right_forward_turn(time*1.05)
 
 
 number_eight(10)
