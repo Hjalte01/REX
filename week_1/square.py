@@ -18,7 +18,7 @@ rightSpeed = 40
 
 
 def forward(len):
-    distance = 4 * len # in meters
+    distance = 45 * len # in meters
 
     print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
     # Wait a bit while robot moves forward
