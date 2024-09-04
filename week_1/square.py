@@ -65,10 +65,10 @@ def right_forward_turn(time):
     sleep(time)
 
 # Left circle of the number 8
-left_forward_turn(9.5)
+left_forward_turn(10)
 
 # Right circle of the number 8
-right_forward_turn(9.5)
+right_forward_turn(10)
 
 # send a stop command
 print(arlo.stop())
