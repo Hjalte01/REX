@@ -56,9 +56,19 @@ def left_forward_turn(time):
     # Wait a bit while robot turns left
     sleep(time)
 
+def right_forward_turn(time):
+
+    # send a go_diff command to turn left
+    print(arlo.go_diff(leftSpeed*1.8, rightSpeed, 1, 1))
+
+    # Wait a bit while robot turns left
+    sleep(time)
 
 # Left circle of the number 8
-left_forward_turn(10)
+left_forward_turn(9.5)
+
+# Right circle of the number 8
+right_forward_turn(9.5)
 
 # send a stop command
 print(arlo.stop())
