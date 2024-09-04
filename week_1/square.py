@@ -44,10 +44,7 @@ def square():
 
 
 # call the square function
-# square()
-
-for i in range(4):
-    turn_left(90)
+square()
 
 # send a stop command
 print(arlo.stop())
