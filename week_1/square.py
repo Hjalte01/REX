@@ -10,7 +10,7 @@ sleep(2)
 
 print("Running ...")
 
-left_motor_diff = 0.881
+left_motor_diff = 0.88
 
 # send a go_diff command to drive forward
 leftSpeed = 53*left_motor_diff
@@ -28,7 +28,7 @@ def forward(len):
     print(arlo.stop())
 
 def turn_left(degree):
-    constant_90_degree = 0.945 / 90
+    constant_90_degree = 0.95/ 90
 
     # send a go_diff command to turn left
     print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
