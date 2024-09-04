@@ -20,7 +20,7 @@ rightSpeed = 53
 def forward(len):
     distance = 3 * len # in meters
 
-    print(arlo.go_diff(leftSpeed/10, rightSpeed*2, 1, 1))
+    print(arlo.go_diff(leftSpeed-46, rightSpeed, 1, 1))
     sleep(0.5)
 
     print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
