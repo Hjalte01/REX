@@ -10,7 +10,7 @@ sleep(2)
 
 print("Running ...")
 
-left_motor_diff = 0.88
+left_motor_diff = 0.89
 
 # send a go_diff command to drive forward
 leftSpeed = 53*left_motor_diff
@@ -20,9 +20,11 @@ rightSpeed = 53
 def forward(len):
     distance = 3 * len # in meters
 
+    print(arlo.go_diff(leftSpeed/10, rightSpeed*2, 1, 1))
+
     print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
     # Wait a bit while robot moves forward
-    sleep(distance)
+    sleep(0.5)
 
     # send a stop command
     print(arlo.stop())
