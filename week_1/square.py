@@ -10,7 +10,7 @@ sleep(2)
 
 print("Running ...")
 
-left_motor_diff = 0.95
+left_motor_diff = 0.948
 
 # send a go_diff command to drive forward
 leftSpeed = 53*left_motor_diff
