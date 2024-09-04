@@ -47,9 +47,7 @@ def square():
         sleep(1)
 
 # call the square function
-
-# Turn 360
-turn_left(360)
+square()
 
 # send a stop command
 print(arlo.stop())
