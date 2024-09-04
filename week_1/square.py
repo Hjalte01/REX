@@ -43,7 +43,8 @@ def square():
         print(arlo.stop())
         sleep(1)
         turn_left(90)
-
+        print(arlo.stop())
+        sleep(1)
 
 # call the square function
 square()
