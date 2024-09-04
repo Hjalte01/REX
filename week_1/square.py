@@ -16,7 +16,7 @@ left_motor_diff = 0.9625
 leftSpeed = 53*left_motor_diff
 rightSpeed = 53
 
-for (i) in range(4):
+for (i) in range(1):
     print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
 
     # Wait a bit while robot moves forward
@@ -25,11 +25,11 @@ for (i) in range(4):
     # send a stop command
     print(arlo.stop())
 
-    # send a go_diff command to turn left
-    print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
+    # # send a go_diff command to turn left
+    # print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
 
-    # Wait a bit while robot turns left
-    sleep(0.94)
+    # # Wait a bit while robot turns left
+    # sleep(0.94)
 
 # send a stop command
 print(arlo.stop())
