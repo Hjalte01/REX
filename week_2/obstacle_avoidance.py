@@ -42,6 +42,16 @@ def turn_left(degree):
     # Wait a bit while robot turns left
     sleep(time_for_turning_one_degree*degree)
 
+def turn_right(degree):
+    constant_for_turning_90_degree = 1.5
+    time_for_turning_one_degree = constant_for_turning_90_degree / 90
+
+    # send a go_diff command to turn right
+    print(arlo.go_diff(leftSpeed, rightSpeed, 1, 0))
+
+    # Wait a bit while robot turns right
+    sleep(time_for_turning_one_degree*degree)
+
 
 # Drive forward and turn left if obstacle detected
 
@@ -60,7 +70,7 @@ def drive_around_and_detect_obstacle():
             print(arlo.stop())
         elif arlo.read_front_ping_sensor() < 200 and arlo.read_left_ping_sensor() < 200:
             print("obstacle detected in left")
-            turn_left(270)
+            turn_right(90)
             print(arlo.stop())
         elif arlo.read_right_ping_sensor() < 200:
             print("obstacle detected in right")
@@ -68,11 +78,11 @@ def drive_around_and_detect_obstacle():
             print(arlo.stop())
         elif arlo.read_left_ping_sensor() < 200:
             print("obstacle detected in left")
-            turn_left(270)
+            turn_right(90)
             print(arlo.stop())
         elif arlo.read_front_ping_sensor() < 200:
             print("obstacle detected in front")
-            turn_left(270)
+            turn_right(90)
             print(arlo.stop())
 
 
