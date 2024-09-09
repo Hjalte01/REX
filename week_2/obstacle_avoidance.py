@@ -54,11 +54,19 @@ def drive_around_and_detect_obstacle():
             print("obstacle detected in front, right and left")
             turn_left(180)
             print(arlo.stop())
-        elif arlo.read_front_ping_sensor() < 200 and arlo.read_right_ping_sensor() < 200 and arlo.read_left_ping_sensor() > 200:
+        elif arlo.read_front_ping_sensor() < 200 and arlo.read_right_ping_sensor() < 200:
             print("obstacle detected in right")
             turn_left(90)
             print(arlo.stop())
-        elif arlo.read_front_ping_sensor() < 200 and arlo.read_right_ping_sensor() > 200 and arlo.read_left_ping_sensor() < 200:
+        elif arlo.read_front_ping_sensor() < 200 and arlo.read_left_ping_sensor() < 200:
+            print("obstacle detected in left")
+            turn_left(270)
+            print(arlo.stop())
+        elif arlo.read_right_ping_sensor() < 200:
+            print("obstacle detected in right")
+            turn_left(90)
+            print(arlo.stop())
+        elif arlo.read_left_ping_sensor() < 200:
             print("obstacle detected in left")
             turn_left(270)
             print(arlo.stop())
