@@ -43,11 +43,19 @@ def turn_left(degree):
 
 # Get sensor data
 
-read_front_ping_sensor = arlo.read_front_ping_sensor()
-read_left_ping_sensor = arlo.read_left_ping_sensor()
-read_right_ping_sensor = arlo.read_right_ping_sensor()
+def get_sensor_data():
+    read_front_ping_sensor = arlo.read_front_ping_sensor()
+    read_left_ping_sensor = arlo.read_left_ping_sensor()
+    read_right_ping_sensor = arlo.read_right_ping_sensor()
 
-print("Front sensor: ", read_front_ping_sensor)
-print("Left sensor: ", read_left_ping_sensor)
-print("Right sensor: ", read_right_ping_sensor)
+    print("Front sensor: ", read_front_ping_sensor)
+    print("Left sensor: ", read_left_ping_sensor)
+    print("Right sensor: ", read_right_ping_sensor)
+
+
+for i in range(4):
+    forward(0.2)
+    if arlo.read_front_ping_sensor() < 40:
+        print(arlo.stop())
+        break
 
