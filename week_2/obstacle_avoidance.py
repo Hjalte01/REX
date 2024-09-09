@@ -1,4 +1,8 @@
 from time import sleep
+import os, sys
+
+# get for the robot module from the parent directory
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import robot
 
