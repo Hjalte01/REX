@@ -44,18 +44,18 @@ def turn_left(degree):
 # Get sensor data
 
 
-for i in range(4):
-    forward(0.2)
+for i in range(30):
+    forward(0.1)
     print("reading front sensor, ", arlo.read_front_ping_sensor())
-    if arlo.read_front_ping_sensor() < 300:
+    if arlo.read_front_ping_sensor() < 200:
         print("obstacle detected in front")
         print(arlo.stop())
         break
-    if arlo.read_right_ping_sensor() < 300:
+    if arlo.read_right_ping_sensor() < 200:
         print("obstacle detected in right")
         print(arlo.stop())
         break
-    if arlo.read_left_ping_sensor() < 300:
+    if arlo.read_left_ping_sensor() < 200:
         print("obstacle detected in left")
         print(arlo.stop())
         break
