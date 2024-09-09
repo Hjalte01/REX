@@ -14,7 +14,7 @@ sleep(2)
 
 print("Running ...")
 
-left_motor_diff = 0.875
+left_motor_diff = 0.93
 
 # send a go_diff command to drive forward
 leftSpeed = 40*left_motor_diff
@@ -31,35 +31,39 @@ def forward(len):
     # send a stop command
     print(arlo.stop())
 
+
 def turn_left(degree):
-    constant_90_degree = 1.5 / 90
+    constant_for_turning_90_degree = 1.5
+    time_for_turning_one_degree = constant_for_turning_90_degree / 90
 
     # send a go_diff command to turn left
     print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
 
     # Wait a bit while robot turns left
-    sleep(constant_90_degree*degree)
+    sleep(time_for_turning_one_degree*degree)
 
 
-# Get sensor data
-
-backBool = False
-
-for i in range(30):
-    forward(0.1)
-    print("reading front sensor, ", arlo.read_front_ping_sensor())
-    if arlo.read_front_ping_sensor() < 200:
-        print("obstacle detected in front")
-        turn_left(180)
-        print(arlo.stop())
-    if arlo.read_right_ping_sensor() < 200:
-        print("obstacle detected in right")
-        turn_left(180)
-        print(arlo.stop())
-    if arlo.read_left_ping_sensor() < 200:
-        print("obstacle detected in left")
-        turn_left(180)
-        print(arlo.stop())
+# Drive forward and turn left if obstacle detected
 
 
-print("Done")
+def drive_around_and_detect_obstacle():
+    for i in range(30):
+        forward(0.1)
+        print("reading front sensor, ", arlo.read_front_ping_sensor())
+        if arlo.read_front_ping_sensor() < 200 and arlo.read_right_ping_sensor() < 200 and arlo.read_left_ping_sensor() < 200:
+            print("obstacle detected in front")
+            turn_left(180)
+            print(arlo.stop())
+        if arlo.read_front_ping_sensor() < 200 and arlo.read_right_ping_sensor() < 200 and arlo.read_left_ping_sensor() > 200:
+            print("obstacle detected in right")
+            turn_left(90)
+            print(arlo.stop())
+        if arlo.read_front_ping_sensor() < 200 and arlo.read_right_ping_sensor() > 200 and arlo.read_left_ping_sensor() < 200:
+            print("obstacle detected in left")
+            turn_left(270)
+            print(arlo.stop())
+        if arlo.read_front_ping_sensor() < 200:
+            print(arlo.stop())
+
+drive_around_and_detect_obstacle()
+
