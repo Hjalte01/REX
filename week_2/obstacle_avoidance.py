@@ -87,5 +87,8 @@ def drive_around_and_detect_obstacle():
 
 
 
-drive_around_and_detect_obstacle()
+front_sensor = arlo.read_front_ping_sensor()
+print("front sensor: ", front_sensor)
+
+
 
