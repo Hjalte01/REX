@@ -39,3 +39,15 @@ def turn_left(degree):
 
     # Wait a bit while robot turns left
     sleep(constant_90_degree*degree)
+
+
+# Get sensor data
+
+read_front_ping_sensor = arlo.read_front_ping_sensor()
+read_left_ping_sensor = arlo.read_left_ping_sensor()
+read_right_ping_sensor = arlo.read_right_ping_sensor()
+
+print("Front sensor: ", read_front_ping_sensor)
+print("Left sensor: ", read_left_ping_sensor)
+print("Right sensor: ", read_right_ping_sensor)
+
