@@ -30,7 +30,7 @@ class ExtendedRobot(Robot):
         """
         Must be invoked by a seperate thread.
         """
-        measures = [150, 0, 120, 120]
+        measures = [0, 0, 0, 0]
 
         while self.alive:
             # Update
@@ -128,20 +128,3 @@ class ExtendedRobot(Robot):
             self.alive = False
         while len(self.tasks):
             self.tasks.pop().join(timeout=1)
-
-
-
-
-
-
-
-
-            
-        
-        
-            
-
-
-        
-
-        
