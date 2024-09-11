@@ -34,17 +34,27 @@ pprint(cam.camera_configuration()) # Print the camera configuration in use
 time.sleep(1)  # wait for camera to setup
 
 
-# Open a window
-WIN_RF = "Example 1"
-cv2.namedWindow(WIN_RF)
-cv2.moveWindow(WIN_RF, 100, 100)
 
 
-while cv2.waitKey(4) == -1: # Wait for a key pressed event
-    image = cam.capture_array("main")
+# # Open a window
+# WIN_RF = "Example 1"
+# cv2.namedWindow(WIN_RF)
+# cv2.moveWindow(WIN_RF, 100, 100)
+
+
+# # Capture frames from the camera
+# while cv2.waitKey(4) == -1: # Wait for a key pressed event
+#     image = cam.capture_array("main")
     
-    # Show frames
-    cv2.imshow(WIN_RF, image)
+#     # Show frames
+#     cv2.imshow(WIN_RF, image)
     
+
+# Capture 1 frame from the camera
+image = cam.capture_array("main")
+print("Image shape: ", image.shape)
+
+# Save the image to a file
+cv2.imwrite("image.jpg", image)
 
 # Finished successfully
