@@ -36,7 +36,7 @@ time.sleep(1)  # wait for camera to setup
 image = cam.capture_array("main")
 print("Image shape: ", image.shape)
 
-aruco_dict = aruco.Dictionary_get(cv2.aruco.DICT_6X6_250)
+aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250)
 parameters = aruco.DetectorParameters_create()
 
 # Detect the markers
