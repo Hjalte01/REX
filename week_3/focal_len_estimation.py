@@ -37,10 +37,10 @@ image = cam.capture_array("main")
 print("Image shape: ", image.shape)
 
 aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250)
-parameters = aruco.DetectorParameters_create()
+parameters = aruco.ArucoDetector().get_default_parameters()
 
 # Detect the markers
-corners, ids, rejected = aruco.detectMarkers(image, aruco_dict, parameters=parameters)
+corners, ids, rejected = aruco.ArucoDetector().detectMarkers(image, aruco_dict, parameters)
 
 # If markers are detected, draw them on the image
 if ids is not None:
