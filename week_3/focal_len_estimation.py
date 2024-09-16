@@ -46,9 +46,17 @@ aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250)
 
 
 # Detect the markers
-corners, ids = aruco.ArucoDetector(aruco_dict).detectMarkers(images)
-print(corners, ids)
+def detectMarkers(images):
+    corners = []
+    ids = []
+    for image in images:
+        c, id = aruco.ArucoDetector(aruco_dict).detectMarkers(image)
+        corners.append(c)
+        ids.append(id)
+    return corners, ids
 
+# Detect the markers in the images
+corners, ids = detectMarkers(images)
 
 # Compute the focal length of the camera
 """
