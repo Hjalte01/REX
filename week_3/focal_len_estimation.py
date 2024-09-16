@@ -32,19 +32,22 @@ time.sleep(1)  # wait for camera to setup
 
 #### Capture frames from the camera and detect the marker with Aruco ###
 
-# Capture 1 frame from the camera
-image = cam.capture_array("main")
-print("Image shape: ", image.shape)
+def capture_frames(cam, num_frames=10):
+    images = []
+    for i in range(num_frames):
+        image = cam.capture_array("main")
+        images.append(image)
+    return images
+
+# Capture 10 frame from the camera
+images = capture_frames(cam, num_frames=10)
 
 aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250)
 
 
 # Detect the markers
-corners, ids, _ = aruco.detectMarkers(image, aruco_dict)
+corners, ids = aruco.ArucoDetector(aruco_dict).detectMarkers(images)
 print(corners, ids)
-
-# Save the image to a file
-cv2.imwrite("image.jpg", image)
 
 
 # Compute the focal length of the camera
@@ -62,8 +65,10 @@ Known values:
 - Z: can be measured using a ruler
 """
 
-# Compute the width of the marker in pixels
-x = corners[0][0][1][0] - corners[0][0][0][0]
+def compute_focal_len_of_image(X, Z):
+    # Compute the width of the marker in pixels
+    x = corners[0][0][1][0] - corners[0][0][0][0]
+    return (x * Z) / X
 
 # Measure the width of the marker in millimeters
 X = 150  # Width of the marker in millimeters
@@ -71,10 +76,26 @@ X = 150  # Width of the marker in millimeters
 # Measure the distance from the camera to the marker in millimeters
 Z = 870  # Distance from the camera to the marker in mill
 
-# Compute the focal length of the camera
-f = (x * Z) / X
 
-print("Focal length of the camera: ", f)
-print("pixel width of the marker in the image: ", x)
+# Save the focal length of the camera for each image, corners
+
+
+focal_lengths = []
+
+for i in range(len(images)):
+    f = compute_focal_len_of_image(X, Z)
+    focal_lengths.append(f)
+
+
+# Save the focal lengths to a file and the corners
+with open("focal_lengths.txt", "w") as f:
+    f.write("Focal lengths: " + str(focal_lengths) + "\n")
+    f.write("Corners: " + str(corners) + "\n")
+    f.close()
+
+
+
+
+
 
 
