@@ -40,12 +40,8 @@ aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250)
 
 
 # Detect the markers
-corners, ids, rejected = aruco.ArucoDetector(aruco_dict).detectMarkers(image)
-print(corners, ids, rejected)
-# If markers are detected, draw them on the image
-if ids is not None:
-    image_with_markers = aruco.drawDetectedMarkers(image.copy(), corners, ids)
-
+corners, ids, _ = aruco.detectMarkers(image, aruco_dict)
+print(corners, ids)
 
 # Save the image to a file
 cv2.imwrite("image.jpg", image)
@@ -79,5 +75,6 @@ Z = 870  # Distance from the camera to the marker in mill
 f = (x * Z) / X
 
 print("Focal length of the camera: ", f)
+print("pixel width of the marker in the image: ", x)
 
 
