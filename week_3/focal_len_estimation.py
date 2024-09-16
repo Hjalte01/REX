@@ -83,13 +83,12 @@ Z = 870  # Distance from the camera to the marker in mill
 # Save the focal length of the camera for each image, corners
 
 
-focal_lengths = []
-compute_focal_len_of_image(X, Z, corners)
+focal_length = compute_focal_len_of_image(X, Z, corners)
 
 
 # Save the focal lengths to a file and the corners
 with open("focal_lengths.txt", "a") as f:
-    f.write("Focal lengths: " + str(focal_lengths) + "\n")
+    f.write("Focal lengths: " + str(focal_length) + "\n")
     f.write("Corners: " + str(corners) + "\n")
 
 
