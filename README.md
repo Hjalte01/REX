@@ -13,7 +13,7 @@ command to find the correct ip-address to connect from the pc and robot.
 id:
 
 ```
-ssh pi@170.20.10.4
+ssh pi@172.20.10.5
 ```
 
 password:
