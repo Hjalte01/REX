@@ -96,7 +96,7 @@ for i in range(len(images)):
 
 
 # Save the focal lengths to a file and the corners
-with open("focal_lengths.txt", "a") as :
+with open("focal_lengths.txt", "a") as f:
     f.write("Focal lengths: " + str(focal_lengths) + "\n")
     f.write("Corners: " + str(corners) + "\n")
     f.close()
