@@ -76,6 +76,7 @@ Known values:
 def compute_focal_len_of_image(X, Z, corners):
     # Compute the width of the marker in pixels
     x = corners[0] - corners[1]
+    print(corners)
     return (x * Z) / X
 
 # Measure the width of the marker in millimeters
