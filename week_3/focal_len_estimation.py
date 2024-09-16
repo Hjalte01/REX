@@ -70,10 +70,10 @@ Known values:
 x = corners[0][0][1][0] - corners[0][0][0][0]
 
 # Measure the width of the marker in millimeters
-X = 100  # Width of the marker in millimeters
+X = 150  # Width of the marker in millimeters
 
 # Measure the distance from the camera to the marker in millimeters
-Z = 500  # Distance from the camera to the marker in mill
+Z = 870  # Distance from the camera to the marker in mill
 
 # Compute the focal length of the camera
 f = (x * Z) / X
