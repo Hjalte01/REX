@@ -40,7 +40,7 @@ aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250)
 
 
 # Detect the markers
-corners, ids, rejected = aruco.ArucoDetector().detectMarkers(image, aruco_dict)
+corners, ids, rejected = aruco.ArucoDetector(aruco_dict).detectMarkers(image)
 print(corners, ids, rejected)
 # If markers are detected, draw them on the image
 if ids is not None:
