@@ -46,10 +46,6 @@ print(corners, ids, rejected)
 if ids is not None:
     image_with_markers = aruco.drawDetectedMarkers(image.copy(), corners, ids)
 
-# Display the resulting image
-cv2.imshow('Detected Markers', image_with_markers)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
 
 # Save the image to a file
 cv2.imwrite("image.jpg", image)
