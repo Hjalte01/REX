@@ -91,7 +91,7 @@ Z = 870  # Distance from the camera to the marker in mill
 focal_lengths = []
 
 for i in range(len(images)):
-    f = compute_focal_len_of_image(X, Z, corners[i])
+    f = compute_focal_len_of_image(X, Z, corners)
     focal_lengths.append(f)
 
 
