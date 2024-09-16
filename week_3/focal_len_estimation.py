@@ -40,23 +40,18 @@ def capture_frames(cam, num_frames=1):
     return images
 
 # Capture 10 frame from the camera
-images = capture_frames(cam, num_frames=1)
+image = capture_frames(cam, num_frames=1)
 
 img_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250) # As per the assignment
 
 
-# Detect the markers
-def detectMarkers(images):
-    corners = []
-    ids = []
-    for image in images:
-        c, id, _ = aruco.detectMarkers(image, img_dict)
-        corners.append(c)
-        ids.append(id)
+# Detect the marker
+def detectMarkers(image):
+    corners, ids, _ = aruco.detectMarkers(image, img_dict)
     return corners, ids
 
-# Detect the markers in the images
-corners, ids = detectMarkers(images)
+# Detect the marker in the image
+corners, ids = detectMarkers(image)
 
 # Compute the focal length of the camera
 """
@@ -89,10 +84,7 @@ Z = 870  # Distance from the camera to the marker in mill
 
 
 focal_lengths = []
-
-for i in range(len(images)):
-    f = compute_focal_len_of_image(X, Z, corners[i])
-    focal_lengths.append(f)
+compute_focal_len_of_image(X, Z, corners)
 
 
 # Save the focal lengths to a file and the corners
