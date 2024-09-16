@@ -32,7 +32,7 @@ time.sleep(1)  # wait for camera to setup
 
 #### Capture frames from the camera and detect the marker with Aruco ###
 
-def capture_frames(cam, num_frames=10):
+def capture_frames(cam, num_frames=1):
     images = []
     for i in range(num_frames):
         image = cam.capture_array("main")
@@ -40,7 +40,7 @@ def capture_frames(cam, num_frames=10):
     return images
 
 # Capture 10 frame from the camera
-images = capture_frames(cam, num_frames=10)
+images = capture_frames(cam, num_frames=1)
 
 img_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250) # As per the assignment
 
