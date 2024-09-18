@@ -50,8 +50,6 @@ def compute_focal_len_of_image(X, Z, corners):
     - corners: Corners of the detected marker in the image plane
     """
     print(corners)
-    print("corner 0 top right: ", corners[0][1])
-    print("corner 1 top left: ", corners[0][0])
     x = corners[1] - corners[0]
     return (x * Z) / X
 
@@ -64,7 +62,7 @@ Z = 870
 
 
 # Compute the focal length of the camera
-focal_length = compute_focal_len_of_image(X, Z, corners[0])
+focal_length = compute_focal_len_of_image(X, Z, corners[0][0]) # Corners [0][0] is the first marker detected
 
 # Save the focal lengths to a file and the corners
 with open("focal_lengths.txt", "a") as f:
