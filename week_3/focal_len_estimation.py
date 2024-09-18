@@ -49,7 +49,8 @@ if corners == None:
 
 print(corners)
 
-board = aruco.Board.create(corners, img_dict, ids)
+# board = aruco.Board.create(corners, img_dict, ids)
+board = aruco.CharucoBoard.create(6, 6, 19, 19, img_dict)
 cam_matrix = np.zeros((3, 3))
 coeff_vector = np.zeros(5)
 
