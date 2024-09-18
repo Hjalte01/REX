@@ -51,6 +51,7 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
         print(" < < <  Game over!  > > > ")
         exit(-1)
     
+    print("Detecting markers in the image")
     # Detect the markers in the images
     corners, ids, _ = aruco.detectMarkers(frameReference, img_dict)
 
@@ -63,11 +64,15 @@ while cv2.waitKey(4) == -1: # Wait for a key pressed event
     cam_matrix = np.zeros((3, 3))
     coeff_vector = np.zeros(5)
 
+    print("Estimated pose of the markers")
+
     # Estimate the pose of the markers in the image
-    rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(corners, 0.05, cam_matrix, coeff_vector)
+    rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(corners, 0.15, cam_matrix, coeff_vector)
 
     print("rvecs: ", rvecs)
     print("tvecs: ", tvecs)
+
+    
     
 
 # Finished successfully
