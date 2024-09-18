@@ -1,6 +1,8 @@
 import cv2 # Import the OpenCV library
 from cv2 import aruco
 import time
+import sys
+import numpy as np
 from pprint import *
 
 try:
@@ -10,7 +12,7 @@ except ImportError:
     print("Camera.py: picamera2 module not available")
     exit(-1)
 
-print("OpenCV version = " + cv2.__version__)
+# print("OpenCV version = " + cv2.__version__)
 
 # Open a camera device for capturing
 imageSize = (1280, 720)
@@ -41,8 +43,20 @@ img_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250) # As per the assign
 # Detect the markers in the images
 corners, ids, _ = aruco.detectMarkers(image, img_dict)
 
-print("Corners detected: ", len(corners))
+if corners == None:
+    print("no corners detected")
+    sys.exit()
 
+print(corners)
+
+board = aruco.Board.create(corners, img_dict, ids)
+cam_matrix = np.zeros((3, 3))
+coeff_vector = np.zeros(5)
+
+_, cam_matrix, coeff_matrix, rvec, tvec = aruco.calibrateCameraAruco(corners, ids, 1, board, imageSize, cam_matrix, coeff_vector)
+
+
+rvec, tvec, marker_points = aruco.estimatePoseBoard(corners, X, cam_matrix, coeff_vector)
 
 def compute_focal_len_of_image(X, Z, corners):
     """
@@ -62,19 +76,32 @@ def compute_focal_len_of_image(X, Z, corners):
 # Measure the width of the marker in millimeters
 X = 150
 
+
 # Measure the distance from the camera to the marker in millimeters
-Z = 400
+Z = 100
 
 
 
 # Compute the focal length of the camera
-focal_length = compute_focal_len_of_image(X, Z, corners[0][0]) # Corners [0][0] is the first marker detected
+focal_length = 1700 # compute_focal_len_of_image(X, Z, corners[0][0]) # Corners [0][0] is the first marker detected
+
+
+
+
+
+
+_, cam_matrix, coeff_matrix, rvec, tvec = aruco.calibrateCameraAruco(corners, ids, 1, board, imageSize, cam_matrix, coeff_vector)
+
+
+rvec, tvec, marker_points = aruco.estimatePoseBoard(corners, X, cam_matrix, coeff_vector)
+
+print(tvec)
 
 # Save the focal lengths to a file and the corners
-with open("focal_lengths_v2.txt", "a") as f:
-    f.write("Focal length: " + str(focal_length) + "\n")
-    f.write("Distance (Z): " + str(Z) + "\n")
-    f.close()
+# with open("focal_lengths_v2.txt", "a") as f:
+#     f.write("Focal length: " + str(focal_length) + "\n")
+#     f.write("Distance (Z): " + str(Z) + "\n")
+#     f.close()
 
 
 
