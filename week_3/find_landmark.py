@@ -71,3 +71,11 @@ rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(corners, marker_length, cam_ma
 
 print("rvecs: ", rvecs)
 print("tvecs: ", tvecs)
+
+# Calculate the distance and angle between the robot and the landmark
+
+distance = np.linalg.norm(tvecs[0])
+angle = np.arctan2(tvecs[0][0][0], tvecs[0][0][2])
+
+print("Distance: ", distance)
+print("Angle: ", angle)
