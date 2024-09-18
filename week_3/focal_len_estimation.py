@@ -43,15 +43,16 @@ img_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250) # As per the assign
 # Detect the markers in the images
 corners, ids, _ = aruco.detectMarkers(image, img_dict)
 
-print(len(corners))
+corners_board = np.array(np.append(corners, 0, 0), dtype=np.float32)
 
 
 if corners == None:
     print("no corners detected")
     sys.exit()
 
+corners = np.array(corners, )
 
-board = aruco.Board_create(corners, img_dict, ids)
+board = aruco.Board_create(corners_board, img_dict, ids)
 cam_matrix = np.zeros((3, 3))
 coeff_vector = np.zeros(5)
 
