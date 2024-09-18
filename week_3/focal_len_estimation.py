@@ -48,10 +48,7 @@ if corners == None:
     sys.exit()
 
 
-boardCornerPoints = [np.array(corner, dtype=np.float32) for corner in corners]  # Ensure corners are float32
-ids = ids.flatten()  # Flatten the ids array to match the corners
-
-board = aruco.Board_create(boardCornerPoints, img_dict, ids)
+board = aruco.Board_create(corners, img_dict, ids)
 cam_matrix = np.zeros((3, 3))
 coeff_vector = np.zeros(5)
 
