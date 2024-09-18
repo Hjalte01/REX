@@ -54,10 +54,6 @@ board = aruco.CharucoBoard.create(6, 6, 19, 19, img_dict)
 cam_matrix = np.zeros((3, 3))
 coeff_vector = np.zeros(5)
 
-_, cam_matrix, coeff_matrix, rvec, tvec = aruco.calibrateCameraAruco(corners, ids, 1, board, imageSize, cam_matrix, coeff_vector)
-
-
-rvec, tvec, marker_points = aruco.estimatePoseBoard(corners, X, cam_matrix, coeff_vector)
 
 def compute_focal_len_of_image(X, Z, corners):
     """
