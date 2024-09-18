@@ -72,8 +72,8 @@ focal_length = compute_focal_len_of_image(X, Z, corners[0][0]) # Corners [0][0] 
 
 # Save the focal lengths to a file and the corners
 with open("focal_lengths.txt", "a") as f:
-    f.write("Focal lengths: " + str(focal_length) + "\n")
-    f.write("Corners: " + str(corners) + "\n")
+    f.write("Focal length: " + str(focal_length) + "\n")
+    f.write("Distance (Z): " + str(Z) + "\n")
     f.close()
 
 
