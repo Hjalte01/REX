@@ -32,8 +32,8 @@ image = cam.capture_array("main")
 
 print("Image shape: ", image.shape)
 
-# # Save the image to a file
-# cv2.imwrite("aruco_marker.jpg", image)
+# Save the image to a file
+cv2.imwrite("aruco_marker.jpg", image)
 
 
 img_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250) # As per the assignment
@@ -55,8 +55,7 @@ def compute_focal_len_of_image(X, Z, corners):
     """
     print(corners)
     print(corners[0])
-    print(corners[0][0])
-    x = corners[0][1] - corners[0][0]  # x difference between the two top corners
+    x = corners[1] - corners[0]  # x difference between the two top corners
     print(x)
     return (x * Z) / X
 
