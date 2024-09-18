@@ -43,7 +43,7 @@ img_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250) # As per the assign
 # Detect the markers in the images
 corners, ids, _ = aruco.detectMarkers(image, img_dict)
 
-corners_board = np.array(np.append(corners, np.zeros((corners.shape[0], corners.shape[1], 1)), axis=2), dtype=np.float32)
+corners_board = np.array(np.append(corners, np.zeros((np.array(corners).shape[0], np.array(corners).shape[1], 1)), axis=2), dtype=np.float32)
 
 
 if corners == None:
