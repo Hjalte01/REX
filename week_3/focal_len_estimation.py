@@ -52,7 +52,7 @@ boardCornerPoints = np.dstack(corners)        # list of 2D arrays -> 3D array
 boardCornerPoints = np.rollaxis(boardCornerPoints,-1)   # 4x2xN -> Nx4x2
 boardCornerPoints = np.pad(boardCornerPoints,((0,0),(0,0),(0,1)),'constant', constant_values=(0.,0.)) # Nx4x2 -> Nx4x3
 
-board = aruco.Board.create(boardCornerPoints img_dict, ids)
+board = aruco.Board_create(boardCornerPoints, img_dict, ids)
 cam_matrix = np.zeros((3, 3))
 coeff_vector = np.zeros(5)
 
