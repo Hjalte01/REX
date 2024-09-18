@@ -43,7 +43,7 @@ img_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250) # As per the assign
 # Detect the markers in the images
 corners, ids, _ = aruco.detectMarkers(image, img_dict)
 
-print(corners.shape)
+print(corners.length)
 
 if corners == None:
     print("no corners detected")
