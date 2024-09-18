@@ -47,10 +47,9 @@ if corners == None:
     print("no corners detected")
     sys.exit()
 
-print(corners)
+print(corners.shape)
 
-# board = aruco.Board.create(corners, img_dict, ids)
-board = aruco.CharucoBoard.create(6, 6, 19, 150, img_dict)
+board = aruco.Board.create(corners, img_dict, ids)
 cam_matrix = np.zeros((3, 3))
 coeff_vector = np.zeros(5)
 
@@ -80,7 +79,7 @@ Z = 100
 
 
 # Compute the focal length of the camera
-focal_length = 1700 # compute_focal_len_of_image(X, Z, corners[0][0]) # Corners [0][0] is the first marker detected
+focal_length = 1694 # compute_focal_len_of_image(X, Z, corners[0][0]) # Corners [0][0] is the first marker detected
 
 
 
