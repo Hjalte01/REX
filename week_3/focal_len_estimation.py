@@ -96,7 +96,11 @@ _, cam_matrix, coeff_matrix, rvec, tvec = aruco.calibrateCameraAruco(corners, id
 
 rvec, tvec, marker_points = aruco.estimatePoseBoard(corners, X, cam_matrix, coeff_vector)
 
-print(tvec)
+print("\n\ntvec", tvec)
+
+print("\n\nrvec", rvec)
+
+print("\n\nmarker_points", marker_points)
 
 # Save the focal lengths to a file and the corners
 # with open("focal_lengths_v2.txt", "a") as f:
