@@ -30,14 +30,14 @@ time.sleep(1)  # wait for camera to setup
 # Capture an image from the camera
 image = cam.capture_array("main")
 
-# Save the image to a file
-cv2.imwrite("aruco_marker.jpg", image)
+# # Save the image to a file
+# cv2.imwrite("aruco_marker.jpg", image)
 
 
-# img_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250) # As per the assignment
+img_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250) # As per the assignment
 
-# # Detect the markers in the images
-# corners, ids, _ = aruco.detectMarkers(image, img_dict)
+# Detect the markers in the images
+corners, ids, _ = aruco.detectMarkers(image, img_dict)
 
 
 def compute_focal_len_of_image(X, Z, corners):
@@ -60,14 +60,14 @@ X = 150
 Z = 870
 
 
-# # Compute the focal length of the camera
-# focal_length = compute_focal_len_of_image(X, Z, corners[0][0])
+# Compute the focal length of the camera
+focal_length = compute_focal_len_of_image(X, Z, corners[0][0])
 
-# # Save the focal lengths to a file and the corners
-# with open("focal_lengths.txt", "a") as f:
-#     f.write("Focal lengths: " + str(focal_length) + "\n")
-#     f.write("Corners: " + str(corners) + "\n")
-#     f.close()
+# Save the focal lengths to a file and the corners
+with open("focal_lengths.txt", "a") as f:
+    f.write("Focal lengths: " + str(focal_length) + "\n")
+    f.write("Corners: " + str(corners) + "\n")
+    f.close()
 
 
 
