@@ -68,7 +68,7 @@ Z = 400
 
 
 # Compute the focal length of the camera
-focal_length = compute_focal_len_of_image(X, Z, corners[0]) # Corners [0] is the first marker detected
+focal_length = compute_focal_len_of_image(X, Z, corners[0][0]) # Corners [0][0] is the first marker detected
 
 # Save the focal lengths to a file and the corners
 with open("focal_lengths.txt", "a") as f:
