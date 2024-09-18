@@ -50,7 +50,8 @@ def compute_focal_len_of_image(X, Z, corners):
     - corners: Corners of the detected marker in the image plane
     """
     print(corners)
-    x = corners[1] - corners[0]
+    x = corners[1][0] - corners[0][0]  # x difference between the two top corners
+    print(x)
     return (x * Z) / X
 
 # Measure the width of the marker in millimeters
