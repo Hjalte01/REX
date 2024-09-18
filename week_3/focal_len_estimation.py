@@ -27,57 +27,47 @@ cam.start(show_preview=False)
 time.sleep(1)  # wait for camera to setup
 
 
-
-#### Capture frames from the camera and detect the marker with Aruco ###
+# Capture an image from the camera
 image = cam.capture_array("main")
 
-img_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250) # As per the assignment
+# Save the image to a file
+cv2.imwrite("aruco_marker.jpg", image)
 
-# Detect the markers in the images
-corners, ids, _ = aruco.detectMarkers(image, img_dict)
 
-# Compute the focal length of the camera
-"""
-The focal length of the camera can be estimated using the formula:
-f = (x * Z) / X
-where:
-- f is the focal length of the camera
-- x is the width of the marker in pixels (in the image plane)
-- Z is the distance from the camera to the marker in millimeters
+# img_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250) # As per the assignment
 
-Known values:
-- x: can be computed from the corners of the detected marker (corners)
-- X: can be measured using a ruler
-- Z: can be measured using a ruler
-"""
+# # Detect the markers in the images
+# corners, ids, _ = aruco.detectMarkers(image, img_dict)
+
 
 def compute_focal_len_of_image(X, Z, corners):
-    # Compute the width of the marker in pixels
+    """
+    The focal length of the camera can be estimated using the formula:
+    f = (x * Z) / X
+    Parameters:
+    - X: Width of the marker in millimeters
+    - Z: Distance from the camera to the marker in millimeters
+    - corners: Corners of the detected marker in the image plane
+    """
     print(corners)
-    x = corners[0] - corners[1]
+    x = corners[0][0][1][0] - corners[0][0][0][0]
     return (x * Z) / X
 
 # Measure the width of the marker in millimeters
-X = 150  # Width of the marker in millimeters
+X = 150
 
 # Measure the distance from the camera to the marker in millimeters
-Z = 870  # Distance from the camera to the marker in mill
+Z = 870
 
 
-# Save the focal length of the camera for each image, corners
+# # Compute the focal length of the camera
+# focal_length = compute_focal_len_of_image(X, Z, corners)
 
-
-focal_lengths = []
-
-f = compute_focal_len_of_image(X, Z, corners[0])
-focal_lengths.append(f)
-
-
-# Save the focal lengths to a file and the corners
-with open("focal_lengths.txt", "a") as f:
-    f.write("Focal lengths: " + str(focal_lengths) + "\n")
-    f.write("Corners: " + str(corners) + "\n")
-    f.close()
+# # Save the focal lengths to a file and the corners
+# with open("focal_lengths.txt", "a") as f:
+#     f.write("Focal lengths: " + str(focal_length) + "\n")
+#     f.write("Corners: " + str(corners) + "\n")
+#     f.close()
 
 
 
