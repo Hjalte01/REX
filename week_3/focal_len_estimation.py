@@ -63,7 +63,7 @@ def compute_focal_len_of_image(X, Z, corners):
 X = 150
 
 # Measure the distance from the camera to the marker in millimeters
-Z = 2400
+Z = 2600
 
 
 
