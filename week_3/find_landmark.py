@@ -34,6 +34,8 @@ time.sleep(1)  # wait for camera to setup
 
 # Capture an image from the camera
 image = cam.capture_array("main")
+image_width = image.shape[1]
+image_height = image.shape[0]
 
 print("Image shape: ", image.shape)
 
@@ -43,6 +45,7 @@ img_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250) # As per the assign
 # Detect the markers in the images
 corners, ids, _ = aruco.detectMarkers(image, img_dict)
 
+print("corners: ", corners)
 
 if corners == None:
     print("no corners detected")
@@ -53,7 +56,13 @@ cam_matrix = np.zeros((3, 3))
 coeff_vector = np.zeros(5)
 
 focal_length = 1694.0
-cam_matrix[0, 0] = focal_length
+principal_point = (image_width / 2, image_height / 2)
+
+cam_matrix[0, 0] = focal_length  # f_x
+cam_matrix[1, 1] = focal_length  # f_y
+cam_matrix[0, 2] = principal_point[0]  # c_x
+cam_matrix[1, 2] = principal_point[1]  # c_y
+cam_matrix[2, 2] = 1.0
 
 marker_length = 0.15 # meters
 
