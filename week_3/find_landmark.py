@@ -25,13 +25,24 @@ def gstreamer_pipeline(capture_width=1024, capture_height=720, framerate=30):
 
 print("OpenCV version = " + cv2.__version__)
 
+# Print the GStreamer pipeline
+pipeline = gstreamer_pipeline()
+print(f"Using GStreamer pipeline: {pipeline}")
+
 # Open a camera device for capturing
-cam = cv2.VideoCapture(gstreamer_pipeline(), apiPreference=cv2.CAP_GSTREAMER)
+cam = cv2.VideoCapture(pipeline, apiPreference=cv2.CAP_GSTREAMER)
 
-
-if not cam.isOpened(): # Error
-    print("Could not open camera")
-    exit(-1)
+if not cam.isOpened():  # Error
+    print("Could not open camera with GStreamer pipeline")
+    print("Trying to open default camera with index 0")
+    cam = cv2.VideoCapture(0)
+    if not cam.isOpened():
+        print("Could not open default camera either")
+        exit(-1)
+    else:
+        print("Default camera opened successfully")
+else:
+    print("Camera opened successfully with GStreamer pipeline")
 
 # # Open a window
 # WIN_RF = "Example 1"
