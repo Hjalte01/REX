@@ -110,7 +110,7 @@ def main():
     running = True
     left = True
     while(running):
-        key = cv2.pollKey(0)
+        key = cv2.pollKey()
         if key == 113: # q
             break
         
