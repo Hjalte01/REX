@@ -197,3 +197,5 @@ def main():
 
     cam.stop()
 
+
+main()
