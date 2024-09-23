@@ -25,7 +25,7 @@ except ImportError:
 
 # print("OpenCV version = " + cv2.__version__)
 
-# Open a camera device for capturing
+# Connection closed by 192.168.0.199 port 22Open a camera device for capturing
 imageSize = (1280, 720)
 FPS = 30
 cam = picamera2.Picamera2()
@@ -61,12 +61,15 @@ cam_matrix[2, 2] = 1.0
 marker_length = 0.15 # meters
 
 # get the dictionary for the aruco markers
-img_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250) # As per the assignment
-
+marker_x = float(sys.argv[1])
+aruco_dict = aruco.Dictionary_get(aruco.DICT_6X6_250)
+aruco_board = aruco.GridBoard.create(4, 4, marker_x*0.001, float(sys.argv[2])*0.001, aruco_dict)
 
 all_corners = []
 all_ids = []
 all_counts = []
+
+constant_1_degree = 1.5 / 90
 
 
 
@@ -75,26 +78,22 @@ def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, left):
     # Capture an image from the camera
     image = cam.capture_array("main")
 
+    cv2.imshow("image", image)
+
     # Detect the markers in the images
     corners, ids, _ = aruco.detectMarkers(image, img_dict)
 
     print("corners: ", corners)
 
-    if ids == None:
+    if ids is None:
         print("no ids detected")
         return not(left)
     else:
         all_corners = np.append(all_corners, corners)
-        ids = np.append(all_ids, ids)
+        all_ids = np.append(all_ids, ids)
         all_corners = np.append(all_counts, len(ids))
-        
-
-        
-
+        return left
     
-
-
-
 
 def main():
     # initialize the robot
@@ -111,18 +110,25 @@ def main():
     running = True
     left = True
     while(running):
+        key = cv2.pollKey()
+        if key == 113: # q
+            break
+        
         # 
         if left:
             print(arlo.go_diff(leftSpeed, rightSpeed, 1, 0))
         else:
             print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
         
-        sleep(1)
-        left = get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, left)
-        print(arlo.stop())
-        sleep(1)
+        left = get_landmark(cam, aruco_dict, cam_matrix, coeff_vector, marker_length, left)
+        sleep(0.1)
 
     print(arlo.stop())
     sleep(1)
 
     cam.stop()
+
+
+main()
+
+cv2.destroyAllWindows()
