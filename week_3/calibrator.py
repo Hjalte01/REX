@@ -61,8 +61,9 @@ cam_matrix[2, 2] = 1.0
 marker_length = 0.15 # meters
 
 # get the dictionary for the aruco markers
-img_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250) # As per the assignment
-
+marker_x = float(sys.argv[1])
+aruco_dict = aruco.Dictionary_get(aruco.DICT_6X6_250)
+aruco_board = aruco.GridBoard.create(4, 4, marker_x*0.001, float(sys.argv[2])*0.001, aruco_dict)
 
 all_corners = []
 all_ids = []
@@ -87,14 +88,7 @@ def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, left):
         all_corners = np.append(all_corners, corners)
         ids = np.append(all_ids, ids)
         all_corners = np.append(all_counts, len(ids))
-        
-
-        
-
     
-
-
-
 
 def main():
     # initialize the robot
@@ -118,7 +112,7 @@ def main():
             print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
         
         sleep(1)
-        left = get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, left)
+        left = get_landmark(cam, aruco_dict, cam_matrix, coeff_vector, marker_length, left)
         print(arlo.stop())
         sleep(1)
 
