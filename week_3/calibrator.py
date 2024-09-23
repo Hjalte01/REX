@@ -24,8 +24,8 @@ except ImportError:
     exit(-1)
 
 # print("OpenCV version = " + cv2.__version__)
-
-# Open a camera device for capturing
+# 32.19, 29.77
+# Connection closed by 192.168.0.199 port 22Open a camera device for capturing
 imageSize = (1280, 720)
 FPS = 30
 cam = picamera2.Picamera2()
@@ -69,6 +69,8 @@ all_corners = []
 all_ids = []
 all_counts = []
 
+constant_1_degree = 1.5 / 90
+
 
 
 def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, left):
@@ -88,6 +90,7 @@ def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, left):
         all_corners = np.append(all_corners, corners)
         ids = np.append(all_ids, ids)
         all_corners = np.append(all_counts, len(ids))
+        return left
     
 
 def main():
@@ -111,10 +114,10 @@ def main():
         else:
             print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
         
-        sleep(1)
+        sleep(constant_1_degree*5)
         left = get_landmark(cam, aruco_dict, cam_matrix, coeff_vector, marker_length, left)
         print(arlo.stop())
-        sleep(1)
+        sleep(constant_1_degree*5)
 
     print(arlo.stop())
     sleep(1)
