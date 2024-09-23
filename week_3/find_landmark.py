@@ -74,7 +74,7 @@ def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length):
 
     print("corners: ", corners)
 
-    if corners == None:
+    if corners is None:
         print("no corners detected")
         return None
 
