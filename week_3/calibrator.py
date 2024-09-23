@@ -110,7 +110,7 @@ def main():
     running = True
     left = True
     while(running):
-        key = cv2.poolkey(0)
+        key = cv2.poolKey(0)
         if key == 113: # q
             break
         
