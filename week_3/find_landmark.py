@@ -74,25 +74,25 @@ def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length):
 
     print("corners: ", corners)
 
-    if corners is None:
-        print("no corners detected")
+    if corners is not None:
+        # Estimate the pose of the markers
+        rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(corners, marker_length, cam_matrix, coeff_vector)
+
+        print("rvecs: ", rvecs)
+        print("tvecs: ", tvecs)
+
+        # Calculate the distance and angle between the robot and the landmark
+
+        distance = np.linalg.norm(tvecs[0])
+        angle = np.arctan2(tvecs[0][0][0], tvecs[0][0][2])
+
+        print("Distance: ", distance)
+        print("Angle: ", angle)
+
+        return distance, angle
+    else:
+        print("No markers detected")
         return None
-
-    # Estimate the pose of the markers
-    rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(corners, marker_length, cam_matrix, coeff_vector)
-
-    print("rvecs: ", rvecs)
-    print("tvecs: ", tvecs)
-
-    # Calculate the distance and angle between the robot and the landmark
-
-    distance = np.linalg.norm(tvecs[0])
-    angle = np.arctan2(tvecs[0][0][0], tvecs[0][0][2])
-
-    print("Distance: ", distance)
-    print("Angle: ", angle)
-
-    return distance, angle
 
 
 
