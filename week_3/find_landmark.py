@@ -74,9 +74,9 @@ def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length):
 
     print("corners: ", corners)
     print(ids)
-    
+
     # check if the markers are detected
-    if ids is not None:
+    if corners != ():
         # Estimate the pose of the markers
         rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(corners, marker_length, cam_matrix, coeff_vector)
 
