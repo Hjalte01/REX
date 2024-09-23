@@ -24,7 +24,7 @@ except ImportError:
     exit(-1)
 
 # print("OpenCV version = " + cv2.__version__)
-# 32.19, 29.77
+
 # Connection closed by 192.168.0.199 port 22Open a camera device for capturing
 imageSize = (1280, 720)
 FPS = 30
@@ -123,3 +123,6 @@ def main():
     sleep(1)
 
     cam.stop()
+
+
+main()
