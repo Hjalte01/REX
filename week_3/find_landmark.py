@@ -102,7 +102,7 @@ def search_for_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, 
     """
     Turn around until the landmark is found and return the distance and angle between the robot and the landmark
     """
-    turn_speed_constant = 1
+    turn_speed_constant = 0.95
     while True:
         distance, angle = get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length)
         if distance != None:
@@ -110,7 +110,7 @@ def search_for_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, 
         else:
             # Turn around
             print(arlo.go_diff(leftSpeed*turn_speed_constant, rightSpeed*turn_speed_constant, 0, 1))
-            sleep(0.5)
+            sleep(1)
             print(arlo.stop())
     
 
