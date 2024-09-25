@@ -108,13 +108,34 @@ def get_coordinates(distance, angle):
     angle: float: The angle between the robot and the landmark
 
     returns:
-    x: float: The x-coordinate of the landmark (vector if multiple landmarks)
-    y: float: The y-coordinate of the landmark (vector if multiple landmarks)
+    x: np.array: The x-coordinate of the landmark (scalar if single landmark)
+    y: np.array: The y-coordinate of the landmark (scalar if single landmark)
     """
     x = distance * np.cos(angle)
     y = distance * np.sin(angle)
 
     return x, y
+
+# Create a map of the environment
+def create_map(x_size, y_size):
+    """Create a empy map of the environment"""
+    # Create empty np array for the map
+    map = np.zeros((x_size, y_size))
+
+    return map
+
+def update_map(map, x, y):
+    """Update the map with the landmark coordinates
+    args:
+    map: np.array: The map of the environment
+    x: np.array: The x-coordinate of the landmark (scalar if single landmark)
+    y: np.array: The y-coordinate of the landmark (scalar if single landmark)
+    """
+    # Update the map with the landmark coordinates
+    map[x, y] = 1
+    return map
+
+    
 
 
 
@@ -122,8 +143,6 @@ def get_coordinates(distance, angle):
 
 def main():
     distance, angle = get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length)
-    print("Distance: ", distance)
-    print("Angle: ", angle)
 
     # get the coordinates of the landmark
     x, y = get_coordinates(distance, angle)
@@ -131,7 +150,10 @@ def main():
     print("Landmark coordinates: ", x, y)
 
     # Plot the landmark coordinates
+    robot_coordinates = np.array([0, 0])
+    plt.scatter(robot_coordinates[0], robot_coordinates[1], color='red')
     plt.scatter(x, y)
+    plt.grid()
     plt.xlabel("x-coordinate")
     plt.ylabel("y-coordinate")
     plt.title("Landmark coordinates")
