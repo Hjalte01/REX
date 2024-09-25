@@ -121,12 +121,17 @@ def correct_angle(angle, arlo, leftSpeed, rightSpeed):
     Correct the angle of the robot by stopping and turning towards the landmark.
     """
     while abs(angle) > 0.05:
+        print(arlo.stop())
+        # Get angle between the robot and the landmark
+        distance, angle = get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length)
         # Turn left correction
         if angle > 0.05:
-            print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
+            print(arlo.go_diff(leftSpeed, rightSpeed, 1, 0))
+            sleep(0.1)
         # Right turn correction
         elif angle < -0.05:
-            print(arlo.go_diff(leftSpeed, rightSpeed, 1, 0))
+            print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
+            sleep(0.1)
  
 
 
