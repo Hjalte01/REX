@@ -98,16 +98,44 @@ def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length):
         return None, None
     
 
-# Get all the landmarks in the image
+# Plot the landmark coordinates
+def get_coordinates(distance, angle):
+    """Get the landmark's coordinates (x,y). Robot is at the origin (0, 0)
+    and the landmark is at the distance and angle from the robot.
+
+    args:
+    distance: float: The distance between the robot and the landmark.
+    angle: float: The angle between the robot and the landmark
+
+    returns:
+    x: float: The x-coordinate of the landmark (vector if multiple landmarks)
+    y: float: The y-coordinate of the landmark (vector if multiple landmarks)
+    """
+    x = distance * np.cos(angle)
+    y = distance * np.sin(angle)
+
+    return x, y
+
+
+
+# Get all the landmarks in the image and plot them
 
 def main():
     distance, angle = get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length)
     print("Distance: ", distance)
     print("Angle: ", angle)
 
-    # Plot all detected landmarks in a coordinate system
-    # Make a function that takes in the distance and angle and returns the x and y coordinates
-    
+    # get the coordinates of the landmark
+    x, y = get_coordinates(distance, angle)
+
+    print("Landmark coordinates: ", x, y)
+
+    # Plot the landmark coordinates
+    plt.scatter(x, y)
+    plt.xlabel("x-coordinate")
+    plt.ylabel("y-coordinate")
+    plt.title("Landmark coordinates")
+    plt.savefig("landmark_coordinates.png")
     
     cam.stop()
 
