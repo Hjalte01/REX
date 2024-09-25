@@ -110,8 +110,9 @@ def search_for_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, 
         else:
             # Turn around
             print(arlo.go_diff(leftSpeed*turn_speed_constant, rightSpeed*turn_speed_constant, 0, 1))
-            sleep(1)
+            sleep(0.5)
             print(arlo.stop())
+            sleep(1)
     
 
 # Correct the angle of the robot while driving towards the landmark
