@@ -1,6 +1,8 @@
 # This file is used to find the landmarks (Aruco Marker) in the image plane and drive the robot to the landmark 
 # by computing the distance and angle between the robot and the landmark.
 
+# 32.19 29.77
+
 import cv2 # Import the OpenCV library
 from cv2 import aruco
 import time
@@ -25,15 +27,31 @@ except ImportError:
 
 # print("OpenCV version = " + cv2.__version__)
 
+def cam_pipeline(capture_width=1024, capture_height=720, framerate=30):
+    """Utility function for setting parameters for the gstreamer camera pipeline"""
+    return (
+        "libcamerasrc !"
+        "videobox autocrop=true !"
+        "video/x-raw, width=(int)%d, height=(int)%d, framerate=(fraction)%d/1 ! "
+        "videoconvert ! "
+        "appsink"
+        % (
+            capture_width,
+            capture_height,
+            framerate,
+        )
+    )
+
 # Connection closed by 192.168.0.199 port 22Open a camera device for capturing
-imageSize = (1280, 720)
+imageSize = (1024, 720)
 FPS = 30
 cam = picamera2.Picamera2()
-frame_duration_limit = int(1/FPS * 1000000) # Microseconds
-# Change configuration to set resolution, framerate
-picam2_config = cam.create_video_configuration({"size": imageSize, "format": 'RGB888'},
-                                                            controls={"FrameDurationLimits": (frame_duration_limit, frame_duration_limit)},
-                                                            queue=False)
+frame_duration_limit = int(1/FPS * 1000000)
+picam2_config = cam.create_video_configuration(
+    {"size": imageSize, "format": 'RGB888'},
+    controls={"FrameDurationLimits": (frame_duration_limit, frame_duration_limit)},
+    queue=False
+)
 cam.configure(picam2_config) # Not really necessary
 cam.start(show_preview=False)
 
@@ -41,29 +59,12 @@ time.sleep(1)  # wait for camera to setup
 
     
 # Capture an image from the camera
-image = cam.capture_array("main")
-image_width = image.shape[1]
-image_height = image.shape[0]
 
-# Get the camera matrix and distortion coefficients
-cam_matrix = np.zeros((3, 3))
-coeff_vector = np.zeros(5)
-
-focal_length = 1694.0
-principal_point = (image_width / 2, image_height / 2)
-
-cam_matrix[0, 0] = focal_length  # f_x
-cam_matrix[1, 1] = focal_length  # f_y
-cam_matrix[0, 2] = principal_point[0]  # c_x
-cam_matrix[1, 2] = principal_point[1]  # c_y
-cam_matrix[2, 2] = 1.0
-
-marker_length = 0.15 # meters
 
 # get the dictionary for the aruco markers
 marker_x = float(sys.argv[1])
 aruco_dict = aruco.Dictionary_get(aruco.DICT_6X6_250)
-aruco_board = aruco.GridBoard.create(4, 4, marker_x*0.001, float(sys.argv[2])*0.001, aruco_dict)
+aruco_board = aruco.GridBoard.create(3, 3, marker_x*0.001, float(sys.argv[2])*0.001, aruco_dict)
 
 all_corners = []
 all_ids = []
@@ -72,29 +73,27 @@ all_counts = []
 constant_1_degree = 1.5 / 90
 
 
-
-def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, left):
+left = True
+def get_landmark(cam, img_dict):
     """Get the landmark from the camera and return the distance and angle between the robot and the landmark"""
     # Capture an image from the camera
+    # image = cam.capture_array("main")
     image = cam.capture_array("main")
-
-    cv2.imshow("image", image)
 
     # Detect the markers in the images
     corners, ids, _ = aruco.detectMarkers(image, img_dict)
 
-    print("corners: ", corners)
-
     if ids is None:
+        left = False
         print("no ids detected")
-        return not(left)
     else:
+        global all_corners
+        global all_ids
+        global all_counts
         all_corners = np.append(all_corners, corners)
         all_ids = np.append(all_ids, ids)
-        all_corners = np.append(all_counts, len(ids))
-        return left
+        all_counts = np.append(all_counts, len(ids))
     
-
 def main():
     # initialize the robot
     arlo = robot.Robot()
@@ -106,22 +105,17 @@ def main():
     left_motor_diff = 0.875
     leftSpeed = 40*left_motor_diff
     rightSpeed = 40
-
-    running = True
-    left = True
-    while(running):
-        key = cv2.pollKey()
-        if key == 113: # q
-            break
-        
-        # 
+    # one rotation
+    n = 100/3 
+    while(n > 0):
+        n -= 1
         if left:
             print(arlo.go_diff(leftSpeed, rightSpeed, 1, 0))
         else:
             print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
         
-        left = get_landmark(cam, aruco_dict, cam_matrix, coeff_vector, marker_length, left)
-        sleep(0.1)
+        get_landmark(cam, aruco_dict)
+        sleep(0.01)
 
     print(arlo.stop())
     sleep(1)
@@ -131,4 +125,8 @@ def main():
 
 main()
 
-cv2.destroyAllWindows()
+print(len(all_ids))
+
+# frame = cam.capture_array("main")
+# cv2.imwrite("image.png", frame)
+
