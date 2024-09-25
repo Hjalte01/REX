@@ -153,7 +153,7 @@ def saftety_margin(map, x, y, r):
     for xi, yi in zip(x, y):
         for i in range(-r, r+1):
             for j in range(-r, r+1):
-                map[xi*100+i, yi*100+j] = 1
+                map[np.floor(i*100+i), np.floor(yi*100+j)] = 1
     return map
 
 
