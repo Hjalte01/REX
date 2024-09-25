@@ -102,7 +102,7 @@ def search_for_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, 
     """
     Turn around until the landmark is found and return the distance and angle between the robot and the landmark
     """
-    turn_speed_constant = 0.8
+    turn_speed_constant = 1
     while True:
         distance, angle = get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length)
         if distance != None:
