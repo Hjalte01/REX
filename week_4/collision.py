@@ -166,7 +166,7 @@ def main():
     size = 1000
     r_robot = 23 # radius of the robot in cm
     r_box = 16 # radius of the robot in cm
-    pos = [size/2, size/2]
+    pos = [int(size/2), int(size/2)]
     # get the coordinates of the landmark
     x, y = get_coordinates(distance, angle)
     x = [int(xi*100 + size/2) for xi in x]
