@@ -119,20 +119,21 @@ def correct_angle(angle, arlo, leftSpeed, rightSpeed):
     """
     Correct the angle of the robot by stopping and turning towards the landmark.
     """
-    while abs(angle) > 0.05:
-        print(arlo.stop())
-        # Get angle between the robot and the landmark
-        distance, angle = get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length)
-        if angle == None:
-            break
-        # Turn left correction
-        if angle > 0.05:
-            print(arlo.go_diff(leftSpeed, rightSpeed, 1, 0))
-            sleep(0.01)
-        # Right turn correction
-        elif angle < -0.05:
-            print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
-            sleep(0.01)
+    if angle != None:
+        while abs(angle) > 0.05:
+            print(arlo.stop())
+            # Get angle between the robot and the landmark
+            distance, angle = get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length)
+            if angle == None:
+                break
+            # Turn left correction
+            if angle > 0.05:
+                print(arlo.go_diff(leftSpeed, rightSpeed, 1, 0))
+                sleep(0.01)
+            # Right turn correction
+            elif angle < -0.05:
+                print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
+                sleep(0.01)
  
 
 
@@ -149,6 +150,9 @@ def drive_towards_landmark(distance, angle, arlo, leftSpeed, rightSpeed):
 
         # Update the distance and angle between the robot and the landmark
         distance, angle = get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length)
+
+        if distance == None:
+            break
 
         # Correct the angle of the robot while driving towards the landmark
         correct_angle(angle, arlo, leftSpeed, rightSpeed)
@@ -174,9 +178,6 @@ def main():
 
     # search for the landmark, if landmark is lost during the search, the robot will turn around until the landmark is found again
     distance, angle = search_for_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, arlo, leftSpeed, rightSpeed)
-
-    print("Distance: ", distance)
-    print("Angle: ", angle)
 
     # Drive towards the landmark
     drive_towards_landmark(distance, angle, arlo, leftSpeed, rightSpeed)
