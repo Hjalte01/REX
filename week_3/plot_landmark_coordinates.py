@@ -84,15 +84,15 @@ def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length):
         print("rvecs: ", rvecs)
         print("tvecs: ", tvecs)
 
-        # Calculate the distance and angle between the robot and the landmark
+        # Calculate the distance and angle between the robot and the landmarks
 
-        distance = np.linalg.norm(tvecs[0])
-        angle = np.arctan2(tvecs[0][0][0], tvecs[0][0][2])
+        distances = [np.linalg.norm(tvec) for tvec in tvecs]
+        angles = [np.arctan2(tvec[0][0], tvec[0][2]) for tvec in tvecs]
 
-        print("Distance: ", distance)
-        print("Angle: ", angle)
+        print("Distance: ", distances)
+        print("Angle: ", angles)
 
-        return distance, angle
+        return distances, angles
     else:
         print("No markers detected")
         return None, None
