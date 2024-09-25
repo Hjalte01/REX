@@ -166,7 +166,7 @@ def main():
     size = 1000
     r_robot = 23 # radius of the robot in cm
     r_box = 16 # radius of the robot in cm
-    pos = [0, 0]
+    pos = [size/2, size/2]
     # get the coordinates of the landmark
     x, y = get_coordinates(distance, angle)
     x = [int(xi*100 + size/2) for xi in x]
@@ -180,14 +180,24 @@ def main():
     map = update_map(map, x, y)
     map = saftety_margin(map, [pos[0]], [pos[1]], r_robot)
     map = saftety_margin(map, x, y, r_box)
-    print("map2", map[0, :])
-    print("map3", map[:, 0])
+    # print("map2", map[0, :])
+    # print("map3", map[:, 0])
 
 
     # Plot the landmark coordinates
     plt.imshow(map)
 
     plt.savefig("map.png")
+
+
+
+    plt.scatter(map[0, :], map[:, 0], color='red')
+    plt.grid()
+    plt.xlabel("x-coordinate")
+    plt.ylabel("y-coordinate")
+    plt.title("Landmark coordinates")
+    plt.savefig("landmark_coordinates.png")
+    
     cam.stop()
 
 
