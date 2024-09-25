@@ -25,10 +25,25 @@ except ImportError:
 
 # print("OpenCV version = " + cv2.__version__)
 
+def cam_pipeline(capture_width=1024, capture_height=720, framerate=30):
+    """Utility function for setting parameters for the gstreamer camera pipeline"""
+    return (
+        "libcamerasrc !"
+        "videobox autocrop=true !"
+        "video/x-raw, width=(int)%d, height=(int)%d, framerate=(fraction)%d/1 ! "
+        "videoconvert ! "
+        "appsink"
+        % (
+            capture_width,
+            capture_height,
+            framerate,
+        )
+    )
+
 # Connection closed by 192.168.0.199 port 22Open a camera device for capturing
 imageSize = (1280, 720)
 FPS = 30
-cam = picamera2.Picamera2()
+cam = cv2.VideoCapture(cam_pipeline(), apiPreference=cv2.CAP_GSTREAMER)
 frame_duration_limit = int(1/FPS * 1000000) # Microseconds
 # Change configuration to set resolution, framerate
 picam2_config = cam.create_video_configuration({"size": imageSize, "format": 'RGB888'},
@@ -76,7 +91,8 @@ constant_1_degree = 1.5 / 90
 def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, left):
     """Get the landmark from the camera and return the distance and angle between the robot and the landmark"""
     # Capture an image from the camera
-    image = cam.capture_array("main")
+    # image = cam.capture_array("main")
+    retval, image = cam.read()
 
     cv2.imshow("image", image)
 
