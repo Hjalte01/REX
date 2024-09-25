@@ -70,6 +70,9 @@ def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length):
     # Capture an image from the camera
     image = cam.capture_array("main")
 
+    # save image
+    cv2.imwrite("image.png", image)
+
     # Detect the markers in the images
     corners, ids, _ = aruco.detectMarkers(image, img_dict)
 
