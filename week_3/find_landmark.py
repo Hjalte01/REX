@@ -128,11 +128,11 @@ def correct_angle(angle, arlo, leftSpeed, rightSpeed):
         # Turn left correction
         if angle > 0.05:
             print(arlo.go_diff(leftSpeed, rightSpeed, 1, 0))
-            sleep(0.1)
+            sleep(0.01)
         # Right turn correction
         elif angle < -0.05:
             print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
-            sleep(0.1)
+            sleep(0.01)
  
 
 
@@ -144,7 +144,7 @@ def drive_towards_landmark(distance, angle, arlo, leftSpeed, rightSpeed):
     correct_angle(angle, arlo, leftSpeed, rightSpeed)
 
     # Drive towards the landmark
-    while distance > 0.3:
+    while distance > 0.4:
         print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
 
         # Update the distance and angle between the robot and the landmark
