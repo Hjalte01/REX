@@ -177,8 +177,8 @@ def main():
     # Create and update map
     map = create_map(size, size)
     map = update_map(map, x, y)
-    map = saftety_margin(map, [pos[0]], [pos[1]], r_robot)
-    map = saftety_margin(map, x, y, r_box)
+    robot_map = saftety_margin(map, [pos[0]], [pos[1]], r_robot)
+    box_map = saftety_margin(map, x, y, r_box)
     # print("map2", map[0, :])
     # print("map3", map[:, 0])
 
@@ -190,8 +190,9 @@ def main():
 
 
 
-    plt.scatter(map[0, :], map[:, 0], color='red')
-    plt.grid()
+    plt.scatter(robot_map[0, :], robot_map[:, 0], color='red')
+    plt.scatter(box_map[0, :], box_map[:, 0], color='yellow')
+    plt.grid(x=100, y=100)
     plt.xlabel("x-coordinate")
     plt.ylabel("y-coordinate")
     plt.title("Landmark coordinates")
