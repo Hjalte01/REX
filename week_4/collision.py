@@ -177,7 +177,7 @@ def main():
     # Create and update map
     map = create_map(500, 500)
     map = update_map(map, x, y)
-    map = saftety_margin(map, pos[0], pos[1], r_robot)
+    map = saftety_margin(map, [pos[0]], [pos[1]], r_robot)
     map = saftety_margin(map, x, y, r_box)
 
     # Plot the landmark coordinates
