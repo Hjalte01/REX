@@ -136,8 +136,6 @@ def update_map(map, x, y):
     """
     # Update the map with the landmark coordinates
     for xi, yi in zip(x, y):
-        xi = int(np.floor(xi*100))
-        yi = int(np.floor(yi*100))
         map[xi, yi] = 1
     return map
 
@@ -155,9 +153,8 @@ def saftety_margin(map, x, y, r):
     for xi, yi in zip(x, y):
         for i in range(-r, r+1):
             for j in range(-r, r+1):
-                xi = int(np.floor(xi*100+i))
-                yi = int(np.floor(yi*100+j))
-                map[xi, yi] = 1
+                print(f"xi = {xi}, yi = {yi}")
+                map[xi+i, yi+j] = 1
     return map
 
 
@@ -166,17 +163,19 @@ def saftety_margin(map, x, y, r):
 def main():
     distance, angle = get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length)
 
+    size = 1000
+    r_robot = 23 # radius of the robot in cm
+    r_box = 16 # radius of the robot in cm
+    pos = [0, 0]
     # get the coordinates of the landmark
     x, y = get_coordinates(distance, angle)
-    r_robot = 23 # radius of the robot in cm
-    r_box = 18 # radius of the robot in cm
-    pos = [0, 0]
+    x, y = int(x*100 + size/2), int(y*100 + size/2)
     
 
     print("Landmark coordinates: ", x, y)
     
     # Create and update map
-    map = create_map(500, 500)
+    map = create_map(size, size)
     map = update_map(map, x, y)
     map = saftety_margin(map, [pos[0]], [pos[1]], r_robot)
     map = saftety_margin(map, x, y, r_box)
