@@ -194,8 +194,8 @@ def main():
     print("Distance: ", distance)
     print("Angle: ", angle)
 
-    # Drive towards the landmark
-    drive_towards_landmark(distance, angle, arlo, leftSpeed, rightSpeed)
+    # # Drive towards the landmark
+    # drive_towards_landmark(distance, angle, arlo, leftSpeed, rightSpeed)
 
     print(arlo.stop())
     sleep(1)
