@@ -139,8 +139,22 @@ def update_map(map, x, y):
         map[xi*100, yi*100] = 1
     return map
 
-    
 
+
+def saftety_margin(map, x, y, r):
+    """Update the map with the landmark coordinates
+    args:
+    map: np.array: The map of the environment
+    x: np.array: The x-coordinate of the landmark (scalar if single landmark)
+    y: np.array: The y-coordinate of the landmark (scalar if single landmark)
+    r: float: The radius of the robot
+    """
+    # Update the map with the landmark coordinates
+    for xi, yi in zip(x, y):
+        for i in range(-r, r+1):
+            for j in range(-r, r+1):
+                map[xi*100+i, yi*100+j] = 1
+    return map
 
 
 # Get all the landmarks in the image and plot them
@@ -150,12 +164,17 @@ def main():
 
     # get the coordinates of the landmark
     x, y = get_coordinates(distance, angle)
+    r_robot = 2.30 # radius of the robot in m
+    r_box = 2.30 # radius of the robot in m
+    pos = [0, 0]
 
     print("Landmark coordinates: ", x, y)
     
     # Create and update map
     map = create_map(500, 500)
     map = update_map(map, x, y)
+    map = saftety_margin(map, pos[0], pos[1], r_robot)
+    map = saftety_margin(map, x, y, r_box)
 
     # Plot the landmark coordinates
     robot_coordinates = np.array([0,0])
