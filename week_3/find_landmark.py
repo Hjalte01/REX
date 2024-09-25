@@ -118,15 +118,14 @@ def search_for_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, 
 # Correct the angle of the robot while driving towards the landmark
 def correct_angle(angle, arlo, leftSpeed, rightSpeed):
     """
-    Correct the angle of the robot while driving towards the landmark by changing the speed of the motors
+    Correct the angle of the robot by stopping and turning towards the landmark.
     """
-    # Left turn correction
-    slow_speed = 0.9
+    # Turn left correction
     if angle > 0.1:
-        print(arlo.go_diff(leftSpeed*slow_speed, rightSpeed, 1, 1))
+        print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
     # Right turn correction
     elif angle < -0.1:
-        print(arlo.go_diff(leftSpeed, rightSpeed*slow_speed, 1, 1))
+        print(arlo.go_diff(leftSpeed, rightSpeed, 1, 0))
 
 
 def drive_towards_landmark(distance, angle, arlo, leftSpeed, rightSpeed):
