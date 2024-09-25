@@ -192,7 +192,7 @@ def main():
 
     plt.scatter(robot_map[0, :], robot_map[:, 0], color='red')
     plt.scatter(box_map[0, :], box_map[:, 0], color='yellow')
-    plt.grid(x=100, y=100)
+    plt.grid()
     plt.xlabel("x-coordinate")
     plt.ylabel("y-coordinate")
     plt.title("Landmark coordinates")
