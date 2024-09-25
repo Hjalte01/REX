@@ -153,7 +153,6 @@ def saftety_margin(map, x, y, r):
     for xi, yi in zip(x, y):
         for i in range(-r, r+1):
             for j in range(-r, r+1):
-                print(f"xi = {xi}, yi = {yi}")
                 map[xi+i, yi+j] = 1
     return map
 
@@ -180,6 +179,8 @@ def main():
     map = update_map(map, x, y)
     map = saftety_margin(map, [pos[0]], [pos[1]], r_robot)
     map = saftety_margin(map, x, y, r_box)
+
+    print(map)
 
     # Plot the landmark coordinates
     plt.scatter(map[0], map[1], color='red')
