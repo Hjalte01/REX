@@ -177,26 +177,45 @@ def main():
     # Create and update map
     map = create_map(size, size)
     map = update_map(map, x, y)
-    robot_map = saftety_margin(map, [pos[0]], [pos[1]], r_robot)
-    box_map = saftety_margin(map, x, y, r_box)
-    # print("map2", map[0, :])
-    # print("map3", map[:, 0])
 
+    # safte margin
+    robot_map = saftety_margin(np.copy(map), [pos[0]], [pos[1]], r_robot)
+    box_map = saftety_margin(np.copy(map), x, y, r_box)
 
-    # Plot the landmark coordinates
-    plt.imshow(map)
+    # Combine robot_map and box_map with the original map
+    combined_map = np.maximum(map, np.maximum(robot_map, box_map))
 
-    plt.savefig("map.png")
-
-
-
-    plt.scatter(robot_map[0, :], robot_map[:, 0], color='red')
-    plt.scatter(box_map[0, :], box_map[:, 0], color='yellow')
+    # Plot combined map
+    plt.imshow(combined_map, cmap=plt.cm.binary, origin='lower')
     plt.grid()
     plt.xlabel("x-coordinate")
     plt.ylabel("y-coordinate")
-    plt.title("Landmark coordinates")
-    plt.savefig("landmark_coordinates.png")
+    plt.title("Landmark and Robot Map")
+
+    # Save the combined map plot
+    plt.savefig("landmark_robot_box_map.png")
+
+    plt.show()
+    # robot_map = saftety_margin(map, [pos[0]], [pos[1]], r_robot)
+    # box_map = saftety_margin(map, x, y, r_box)
+    # # print("map2", map[0, :])
+    # # print("map3", map[:, 0])
+
+
+    # # Plot the landmark coordinates
+    # plt.imshow(map)
+
+    # plt.savefig("map.png")
+
+
+
+    # plt.scatter(robot_map[0, :], robot_map[:, 0], color='red')
+    # plt.scatter(box_map[0, :], box_map[:, 0], color='yellow')
+    # plt.grid()
+    # plt.xlabel("x-coordinate")
+    # plt.ylabel("y-coordinate")
+    # plt.title("Landmark coordinates")
+    # plt.savefig("landmark_coordinates.png")
     
     cam.stop()
 
