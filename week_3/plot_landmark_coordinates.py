@@ -114,8 +114,8 @@ def get_coordinates(distance, angle):
     x: np.array: The x-coordinate of the landmark (scalar if single landmark)
     y: np.array: The y-coordinate of the landmark (scalar if single landmark)
     """
-    x = distance * np.cos(angle)
-    y = distance * np.sin(angle)
+    x = distance * np.sin(angle)
+    y = distance * np.cos(angle)
 
     return x, y
 
