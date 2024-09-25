@@ -169,7 +169,8 @@ def main():
     pos = [0, 0]
     # get the coordinates of the landmark
     x, y = get_coordinates(distance, angle)
-    x, y = int(x*100 + size/2), int(y*100 + size/2)
+    x = [int(xi*100 + size/2) for xi in x]
+    y = [int(yi*100 + size/2) for yi in y]
     
 
     print("Landmark coordinates: ", x, y)
