@@ -94,7 +94,7 @@ def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length):
         return distance, angle
     else:
         print("No markers detected")
-        return None
+        return None, None
 
 
 
