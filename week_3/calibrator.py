@@ -45,13 +45,12 @@ def cam_pipeline(capture_width=1024, capture_height=720, framerate=30):
 # Connection closed by 192.168.0.199 port 22Open a camera device for capturing
 imageSize = (1024, 720)
 FPS = 30
-cam = picamera2.Picamera2()
-frame_duration_limit = int(1/FPS * 1000000)
-picam2_config = cam.create_video_configuration(
-    {"size": imageSize, "format": 'RGB888'},
-    controls={"FrameDurationLimits": (frame_duration_limit, frame_duration_limit)},
-    queue=False
-)
+cam = cv2.VideoCapture(cam_pipeline(), apiPreference=cv2.CAP_GSTREAMER)
+frame_duration_limit = int(1/FPS * 1000000) # Microseconds
+# Change configuration to set resolution, framerate
+picam2_config = cam.create_video_configuration({"size": imageSize, "format": 'RGB888'},
+                                                            controls={"FrameDurationLimits": (frame_duration_limit, frame_duration_limit)},
+                                                            queue=False)
 cam.configure(picam2_config) # Not really necessary
 cam.start(show_preview=False)
 
@@ -78,7 +77,9 @@ def get_landmark(cam, img_dict):
     """Get the landmark from the camera and return the distance and angle between the robot and the landmark"""
     # Capture an image from the camera
     # image = cam.capture_array("main")
-    image = cam.capture_array("main")
+    retval, image = cam.read()
+
+    cv2.imshow("image", image)
 
     # Detect the markers in the images
     corners, ids, _ = aruco.detectMarkers(image, img_dict)
