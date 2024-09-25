@@ -150,13 +150,12 @@ def drive_towards_landmark(distance, angle, arlo, leftSpeed, rightSpeed):
         # Update the distance and angle between the robot and the landmark
         distance, angle = get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length)
 
-        if distance == None:
-            print("Landmark lost")
-            # search for the landmark
-            distance, angle = search_for_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, arlo, leftSpeed, rightSpeed)
-        
         # Correct the angle of the robot while driving towards the landmark
         correct_angle(angle, arlo, leftSpeed, rightSpeed)
+
+    
+    print(arlo.stop())
+    print("Landmark reached")
 
     return distance, angle
 
@@ -181,9 +180,6 @@ def main():
 
     # Drive towards the landmark
     drive_towards_landmark(distance, angle, arlo, leftSpeed, rightSpeed)
-
-    print(arlo.stop())
-    sleep(1)
 
     cam.stop()
 
