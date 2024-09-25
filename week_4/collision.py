@@ -135,7 +135,8 @@ def update_map(map, x, y):
     y: np.array: The y-coordinate of the landmark (scalar if single landmark)
     """
     # Update the map with the landmark coordinates
-    map[x, y] = 1
+    for xi, yi in zip(x, y):
+        map[xi*100, yi*100] = 1
     return map
 
     
@@ -152,16 +153,12 @@ def main():
 
     print("Landmark coordinates: ", x, y)
     
-    # size of grid
-    n = 500
-    grid = np.zeroes((n, n))
-    pos = [0, 0]
-    for xi, yi in zip(x, y):
-        grid[xi*100, yi*100] = 1
-
+    # Create and update map
+    map = create_map(500, 500)
+    map = update_map(map, x, y)
 
     # Plot the landmark coordinates
-    robot_coordinates = pos
+    robot_coordinates = np.array([0,0])
     plt.scatter(robot_coordinates[0], robot_coordinates[1], color='red')
     plt.scatter(x, y)
     plt.grid()
