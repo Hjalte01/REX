@@ -163,7 +163,7 @@ def main():
     sleep(2)
 
     # set the speed of the robot
-    left_motor_diff = 0.875
+    left_motor_diff = 0.920
     leftSpeed = 40*left_motor_diff
     rightSpeed = 40
 
