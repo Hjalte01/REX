@@ -168,9 +168,10 @@ def main():
 
     # get the coordinates of the landmark
     x, y = get_coordinates(distance, angle)
-    r_robot = 2.30 # radius of the robot in m
-    r_box = 2.30 # radius of the robot in m
+    r_robot = 23 # radius of the robot in cm
+    r_box = 18 # radius of the robot in cm
     pos = [0, 0]
+    
 
     print("Landmark coordinates: ", x, y)
     
