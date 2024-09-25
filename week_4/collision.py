@@ -176,11 +176,14 @@ def main():
     
     # Create and update map
     map = create_map(size, size)
-    map = update_map(map, x, y)
-    map = saftety_margin(map, [pos[0]], [pos[1]], r_robot)
-    map = saftety_margin(map, x, y, r_box)
-
     print(map)
+    map = update_map(map, x, y)
+    print(map)
+    map = saftety_margin(map, [pos[0]], [pos[1]], r_robot)
+    print(map)
+    map = saftety_margin(map, x, y, r_box)
+    print(map)
+
 
     # Plot the landmark coordinates
     plt.scatter(map[0], map[1], color='red')
