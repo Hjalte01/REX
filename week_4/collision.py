@@ -182,9 +182,7 @@ def main():
     map = saftety_margin(map, x, y, r_box)
 
     # Plot the landmark coordinates
-    robot_coordinates = np.array([0,0])
-    plt.scatter(robot_coordinates[0], robot_coordinates[1], color='red')
-    plt.scatter(x, y)
+    plt.scatter(map)
     plt.grid()
     plt.xlabel("x-coordinate")
     plt.ylabel("y-coordinate")
