@@ -154,7 +154,6 @@ def saftety_margin(map, x, y, r):
         for i in range(-r, r+1):
             for j in range(-r, r+1):
                 map[xi+i, yi+j] = 1
-                print(f"(x, y) = {xi+i, yi+j}")
     return map
 
 
