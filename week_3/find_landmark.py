@@ -191,8 +191,11 @@ def main():
     # search for the landmark, if landmark is lost during the search, the robot will turn around until the landmark is found again
     distance, angle = search_for_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, arlo, leftSpeed, rightSpeed)
 
-    # Drive towards the landmark
-    drive_towards_landmark(distance, angle, arlo, leftSpeed, rightSpeed)
+    # # Drive towards the landmark
+    # drive_towards_landmark(distance, angle, arlo, leftSpeed, rightSpeed)
+
+    print("Distance: ", distance)
+    print("Angle: ", angle)
 
     print(arlo.stop())
     sleep(1)
