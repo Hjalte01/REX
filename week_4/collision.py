@@ -136,7 +136,7 @@ def update_map(map, x, y):
     """
     # Update the map with the landmark coordinates
     for xi, yi in zip(x, y):
-        map[xi*100, yi*100] = 1
+        map[np.floor(xi*100), np.floor(yi*100)] = 1
     return map
 
 
