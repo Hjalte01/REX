@@ -136,7 +136,7 @@ def update_map(map, x, y):
     """
     # Update the map with the landmark coordinates
     for xi, yi in zip(x, y):
-        map[np.floor(xi*100), np.floor(yi*100)] = 1
+        map[np.floor(xi*100, type=int), np.floor(yi*100, type=int)] = 1
     return map
 
 
@@ -153,7 +153,7 @@ def saftety_margin(map, x, y, r):
     for xi, yi in zip(x, y):
         for i in range(-r, r+1):
             for j in range(-r, r+1):
-                map[np.floor(i*100+i), np.floor(yi*100+j)] = 1
+                map[np.floor(i*100+i, type=int), np.floor(yi*100+j, type=int)] = 1
     return map
 
 
