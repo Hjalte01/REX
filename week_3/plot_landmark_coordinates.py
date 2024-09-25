@@ -103,20 +103,11 @@ def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length):
 def main():
     distance, angle = get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length)
     print("Distance: ", distance)
+    print("Angle: ", angle)
 
-    # Plot the landmark coordinates
-    if distance != None:
-        x = distance * np.cos(angle)
-        y = distance * np.sin(angle)
-        print("x: ", x)
-        print("y: ", y)
-
-        # Plot the landmark coordinates
-        print("Plotting the landmark coordinates")
-        plt.plot(x, y, 'ro')
-        plt.show()
-    else:
-        print("No markers detected")
+    # Plot all detected landmarks in a coordinate system
+    # Make a function that takes in the distance and angle and returns the x and y coordinates
+    
     
     cam.stop()
 
