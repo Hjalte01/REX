@@ -29,7 +29,7 @@ def forward(len):
     sleep(distance)
 
     # send a stop command
-    print(arlo.stop())
+    print(arlo.stop_driver())
 
 
 def turn_left(degree):
@@ -63,32 +63,29 @@ def drive_around_and_detect_obstacle():
         if arlo.read_front_ping_sensor() < 200 and arlo.read_right_ping_sensor() < 200 and arlo.read_left_ping_sensor() < 200:
             print("obstacle detected in front, right and left")
             turn_left(180)
-            print(arlo.stop())
+            print(arlo.stop_driver())
         elif arlo.read_front_ping_sensor() < 200 and arlo.read_right_ping_sensor() < 200:
             print("obstacle detected in right")
             turn_left(90)
-            print(arlo.stop())
+            print(arlo.stop_driver())
         elif arlo.read_front_ping_sensor() < 200 and arlo.read_left_ping_sensor() < 200:
             print("obstacle detected in left")
             turn_right(90)
-            print(arlo.stop())
+            print(arlo.stop_driver())
         elif arlo.read_right_ping_sensor() < 200:
             print("obstacle detected in right")
             turn_left(90)
-            print(arlo.stop())
+            print(arlo.stop_driver())
         elif arlo.read_left_ping_sensor() < 200:
             print("obstacle detected in left")
             turn_right(90)
-            print(arlo.stop())
+            print(arlo.stop_driver())
         elif arlo.read_front_ping_sensor() < 200:
             print("obstacle detected in front")
             turn_right(90)
-            print(arlo.stop())
+            print(arlo.stop_driver())
 
 
 
 front_sensor = arlo.read_front_ping_sensor()
 print("front sensor: ", front_sensor)
-
-
-

@@ -2,10 +2,13 @@
 A very simple statedriver. It implements events, tasks & states.
 The execution of a cycle is sequential: tasks -> state -> event-listeners
 """
+import sys
+import os
 from time import sleep
 from typing import Callable, List, Tuple
 from threading import Thread, Lock
 from dataclasses import dataclass
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from robot import Robot
 
 class Event:
@@ -163,7 +166,7 @@ class Driver():
         **Argument(s)**
         * id - State id. If the active state is equal to the requested state, this is a no-op.
         """
-        if self.__active_state__.id == id:
+        if self.__active_state__ and self.__active_state__.id == id:
             return
         if not (id in self.__states__.keys()):
             return print("[LOG] The state \"{0}\" has not been added to driver {1}.".format(id, self))

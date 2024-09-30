@@ -25,7 +25,7 @@ def forward(len):
     sleep(distance)
 
     # send a stop command
-    print(arlo.stop())
+    print(arlo.stop_driver())
 
 def turn_left(degree):
     constant_90_degree = 1.5 / 90
@@ -40,10 +40,10 @@ def turn_left(degree):
 def square():
     for i in range(4):
         forward(1)
-        print(arlo.stop())
+        print(arlo.stop_driver())
         sleep(1)
         turn_left(90)
-        print(arlo.stop())
+        print(arlo.stop_driver())
         sleep(1)
 
 
@@ -74,4 +74,4 @@ for i in range(3):
     
 
 # send a stop command
-print(arlo.stop())
+print(arlo.stop_driver())

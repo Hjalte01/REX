@@ -11,7 +11,7 @@ if __name__ == "__main__":
             arr = [int(x) for x in user_input.split(" ")[1:] + [40, 40]]
             robot.go(arr[0], arr[1])
         elif user_input[0] == 's':
-            robot.stop()
+            robot.stop_driver()
         elif user_input[0] == 'q':
-            robot.stop()
+            robot.stop_driver()
             break

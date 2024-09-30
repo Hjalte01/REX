@@ -10,7 +10,7 @@ class StatefulRobot(Robot):
         PI_CAMERA   = 0
         GSTREAM     = 1
 
-    def __init__(self, states: List[State], strategy=CamStategy.PI_CAMERA, img_size=(1280, 720), fps=30, port='/dev/ttyACM0'):
+    def __init__(self, strategy=CamStategy.PI_CAMERA, img_size=(1280, 720), fps=30, port='/dev/ttyACM0'):
         """
         **Argument(s)**
         * states - Driver states
@@ -37,12 +37,11 @@ class StatefulRobot(Robot):
                     },
                     controls={
                         "FrameDurationLimits": (int(1/fps * 1000000), int(1/fps * 1000000)),
-                        # "LensPosition": 0,
-                        # "ScalerCrop": [img_size[0]//2, img_size[1]//2, img_size[0], img_size[1]]
+                        # "ScalerCrop": [0, 0, img_size[0]*10, img_size[1]*10],
                     },
                     queue=False
                 )
-                self.cam.configure(self.config)
+                self.cam.configure(self.cam_config)
                 self.cam.start(show_preview=False)
             except:
                 pass
@@ -51,7 +50,7 @@ class StatefulRobot(Robot):
             pass
 
         self.aruco_dict = aruco.Dictionary_get(aruco.DICT_6X6_250)
-        self.driver = Driver(self, 1000, states[0], *states[1:])
+        self.driver = Driver(self, 100)
     
     def __del__(self):
         try:
@@ -63,7 +62,7 @@ class StatefulRobot(Robot):
 
     def capture(self):
         if self.cam_strategy == StatefulRobot.CamStategy.PI_CAMERA:
-            return self.cam.capture_array("main")
+            return self.cam.capture_request().make_array("main")
         else:
             # GStream capture here.
             pass
@@ -120,14 +119,13 @@ class StatefulRobot(Robot):
         """
         self.driver.task(task)
         
-    def start(self):
+    def start_driver(self):
         """
         Starts the driver. If the driver is already started or no states has been added, this is a no-op.
         """
         self.driver.start()
 
-
-    def stop(self):
+    def stop_driver(self):
         """
         Stops the driver. If the driver is already stopped, this is a no-op.
         """
@@ -180,8 +178,8 @@ if __name__ == "__main__":
     sleep(0.1)
     test.switch("bar")
     sleep(2)
-    test.stop()
-    test.stop()
+    test.stop_driver()
+    test.stop_driver()
     test.add(State("baz"))
     print(len(test.driver))
     test.add(State("baz"))
