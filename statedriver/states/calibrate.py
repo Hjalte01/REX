@@ -27,9 +27,6 @@ class CalibrateState(State):
         self.__all_corners__    = np.empty((0, 1, 4, 2), np.float32)
         self.__all_ids__        = np.empty((0, 1), np.int32)
         self.__all_counts__     = np.empty((0, 1), np.int32)
-
-    def done(self):
-        return self.__done__
     
     def run(self, robot: StatefulRobot):
         frame = robot.capture()
@@ -57,8 +54,7 @@ class CalibrateState(State):
             self.__mode__ = 0x1 & 0x2 & 0x4 # Turn on left bit, moving bit, keep detect bit
             robot.go_diff(40, 40, 1, 0)
 
-        self.__done__ = self.__passes__ <= 0
-        if not self.__done__:
+        if not self.done(self.__passes__ <= 0):
             return
         
         _, cam_matrix, dist_coeffs, _, _ = aruco.calibrateCameraAruco(

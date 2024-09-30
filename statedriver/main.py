@@ -6,14 +6,15 @@ from states.calibrate import CalibrateState, CalibrateEvent
 def handleCalibrationPass(_: CalibrateEvent):
     input("Pass complete. Press any key for next pass.")
 
-def handleCalibrationPass(e: CalibrateEvent):
+def handleCalibrationComplete(e: CalibrateEvent):
     print("Calibration complete.")
     savez("config.npz", cam_matrix=e.cam_matrix, dist_coeffs=e.dist_coeffs)
 
 def main():
     states = [CalibrateState(robot, 0, (3, 3), 0)]
     robot = StatefulRobot(StatefulRobot.CamStategy.PI_CAMERA, *states)
-    robot.register(CalibrateEvent.Type.CALIBRATION_COMPLETE, handleCalibrationPass)
+    robot.register(CalibrateEvent.Type.CALIBRATION_COMPLETE, handleCalibrationComplete)
+    robot.register(CalibrateEvent.Type.PASS_COMPLETE, handleCalibrationPass)
 
     print("Robot CLI - usage:\n\tPress 'c' to calibrate.\n\tPress 'p' to capture a picture.\n\tPress 's' to stop.\n\tPress 'q' to quit.")
     while True:
