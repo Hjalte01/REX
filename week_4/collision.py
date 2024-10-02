@@ -168,8 +168,8 @@ def main():
     pos = [int(size/2), int(size/2)]
     # get the coordinates of the landmark
     x, y = get_coordinates(distance, angle)
-    x = [int(xi*100 + size/2) for xi in x]
-    y = [int(yi*100 + size/2) for yi in y]
+    x = [int(xi*0.45 + size/2) for xi in x]
+    y = [int(yi*0.45 + size/2) for yi in y]
     
 
     print("Landmark coordinates: ", x, y)
@@ -196,26 +196,26 @@ def main():
     plt.savefig("landmark_robot_box_map.png")
 
     plt.show()
-    # robot_map = saftety_margin(map, [pos[0]], [pos[1]], r_robot)
-    # box_map = saftety_margin(map, x, y, r_box)
-    # # print("map2", map[0, :])
-    # # print("map3", map[:, 0])
+    robot_map = saftety_margin(map, [pos[0]], [pos[1]], r_robot)
+    box_map = saftety_margin(map, x, y, r_box)
+    # print("map2", map[0, :])
+    # print("map3", map[:, 0])
 
 
-    # # Plot the landmark coordinates
-    # plt.imshow(map)
+    # Plot the landmark coordinates
+    plt.imshow(map)
 
-    # plt.savefig("map.png")
+    plt.savefig("map.png")
 
 
 
-    # plt.scatter(robot_map[0, :], robot_map[:, 0], color='red')
-    # plt.scatter(box_map[0, :], box_map[:, 0], color='yellow')
-    # plt.grid()
-    # plt.xlabel("x-coordinate")
-    # plt.ylabel("y-coordinate")
-    # plt.title("Landmark coordinates")
-    # plt.savefig("landmark_coordinates.png")
+    plt.scatter(robot_map[0, :], robot_map[:, 0], color='red')
+    plt.scatter(box_map[0, :], box_map[:, 0], color='yellow')
+    plt.grid()
+    plt.xlabel("x-coordinate")
+    plt.ylabel("y-coordinate")
+    plt.title("Landmark coordinates")
+    plt.savefig("landmark_coordinates.png")
     
     cam.stop()
 
