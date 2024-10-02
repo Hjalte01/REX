@@ -28,7 +28,7 @@ class StatefulRobot(Robot, Waitable):
 
         # Initialize the camera
         self.cam = None
-        if strategy == StatefulRobot.CamStategy.PI_CAMERA:
+        if strategy == StatefulRobot.CamStategy.PI_CAMERA or strategy == StatefulRobot.CamStategy.PI_CAMERA_REQ:
             try:
                 import picamera2  # type: ignore
                 self.cam_strategy = strategy
@@ -65,10 +65,18 @@ class StatefulRobot(Robot, Waitable):
     def capture(self):
         if self.cam_strategy == StatefulRobot.CamStategy.PI_CAMERA:
             return self.cam.capture_array("main")
-        elif self.cam_strategy == StatefulRobot.CamStategy.PI_CAMERA_REQ:
-            with self.cam.capture_request(flush=True, signal_function=lambda _: self.cam_wait.wake()) as req:
-                self.cam_wait.wait()
-                return req.make_array("main")
+        elif self.cam_strategy == StatefulRobot.CamStategy.PI_CAMERA_REQ:        
+            def f(job):
+                req = self.cam.wait(job)
+                print(req.make_array("main"))
+                self.frame = req.make_array("main")
+                req.release()
+                self.cam_wait.wake()
+            self.cam.capture_array("main")
+            self.cam.capture_request(signal_function=f)
+            self.cam_wait.wait()
+
+            return self.frame
         else:
             # GStream capture here.
             # Make sure libcamera is installed: gst-inspect-1.0 libcamerasrc
@@ -85,7 +93,7 @@ class StatefulRobot(Robot, Waitable):
         """
         self.driver.default(state)
     
-    def add(self, runable: Task|State, default=False):
+    def add(self, runable: Task, default=False):
         """
         Adds a task or state to the statedriver. If the driver is started, this is a no-op.
         

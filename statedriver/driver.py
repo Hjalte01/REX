@@ -159,7 +159,7 @@ class Driver(Waitable):
         The known states as a tuple, where the 1st element contains the names of the states,
         and the 2nd element contains the actual states.
         """
-        return (tuple(self[State].keys()), tuple(self[State].values()))
+        return (tuple(self.__states__.keys()), tuple(self.__states__.values()))
                 
     def default(self, id: object):
         """
@@ -289,7 +289,7 @@ class Driver(Waitable):
         """
         Wakes the driver. If the driver is stopped, this is a no-op.
         """
-        if self.__thread__ is None:
+        if self.__thread__ is None or len(self.__tasks__) == 0:
             return
         self.__tasks__[0].wake()
     
