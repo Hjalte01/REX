@@ -17,7 +17,6 @@ class RobotModel:
             x_new = path[-1] + u[i] #u is velocity command here
             path.append(x_new)    
         
-        
         return path[1:]
 
     def inverse_dyn(self, x, x_goal, T):
