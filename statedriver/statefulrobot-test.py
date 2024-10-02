@@ -60,7 +60,7 @@ if __name__ == "__main__":
     test.wake(test.driver)
     sleep(0.05)
     
-    # Adding a state while the driver is running is no-op
+    # Adding a state while enviromentthe driver is running is no-op
     test.add(State("baz"))
     assert(len(test.driver) == 2)
     test.stop()
