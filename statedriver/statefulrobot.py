@@ -1,26 +1,28 @@
 from dataclasses import dataclass
-from time import sleep
-from typing import List, Callable
+from typing import Callable
 import cv2.aruco as aruco # type: ignore
-from driver import Robot, Driver, State, Event, Task
+from driver import Robot, Waitable, Driver, State, Event, Task
 
-class StatefulRobot(Robot):
+class StatefulRobot(Robot, Waitable):
     @dataclass
     class CamStategy:
-        PI_CAMERA   = 0
-        GSTREAM     = 1
+        PI_CAMERA           = 0
+        PI_CAMERA_REQ       = 1
+        GSTREAM             = 2
 
     def __init__(self, strategy=CamStategy.PI_CAMERA, img_size=(1280, 720), fps=30, port='/dev/ttyACM0'):
         """
         **Argument(s)**
-        * states - Driver states
         * strategy - CamStrategy to use
         * img_size - Image size
         * fps - Frames per second
         * port - Serial port to bind
         """
         try:
-            super().__init__(port)
+            # Composite inheritance requires that both supers call super(T, self).__init__(),
+            # unfortunately Robot does not. Luckily Python is wonky, so this is a easy hack. 
+            Waitable.__init__(self)
+            Robot.__init__(self, port)
         except:
             pass
 
@@ -30,6 +32,7 @@ class StatefulRobot(Robot):
             try:
                 import picamera2  # type: ignore
                 self.cam_strategy = strategy
+                self.cam_wait = Waitable()
                 self.cam = picamera2.Picamera2()
                 self.cam_config = self.cam.create_video_configuration({
                     "size": img_size, 
@@ -37,7 +40,6 @@ class StatefulRobot(Robot):
                     },
                     controls={
                         "FrameDurationLimits": (int(1/fps * 1000000), int(1/fps * 1000000)),
-                        # "ScalerCrop": [0, 0, img_size[0]*10, img_size[1]*10],
                     },
                     queue=False
                 )
@@ -50,21 +52,28 @@ class StatefulRobot(Robot):
             pass
 
         self.aruco_dict = aruco.Dictionary_get(aruco.DICT_6X6_250)
-        self.driver = Driver(self, 100)
+        self.driver = Driver(self)
     
     def __del__(self):
+        self.driver.stop()
         try:
             super().__del__()
             self.cam.stop()
         except:
             pass
-        self.driver.stop()
 
     def capture(self):
         if self.cam_strategy == StatefulRobot.CamStategy.PI_CAMERA:
-            return self.cam.capture_request().make_array("main")
+            return self.cam.capture_array("main")
+        elif self.cam_strategy == StatefulRobot.CamStategy.PI_CAMERA_REQ:
+            with self.cam.capture_request(flush=True, signal_function=lambda _: self.cam_wait.wake()) as req:
+                self.cam_wait.wait()
+                return req.make_array("main")
         else:
             # GStream capture here.
+            # Make sure libcamera is installed: gst-inspect-1.0 libcamerasrc
+            # Try without videobox and/or appsink
+            # Force BGR: video/x-raw, format=BGR
             pass
     
     def default(self, state: State):
@@ -75,21 +84,16 @@ class StatefulRobot(Robot):
         * state - State to set as default.
         """
         self.driver.default(state)
-
-    def add(self, state: State, default=False):
+    
+    def add(self, runable: Task|State, default=False):
         """
-        Adds a state to the statedriver.
+        Adds a task or state to the statedriver. If the driver is started, this is a no-op.
         
         **Argument(s)**
-        * state - State to add
-        * default - If true, the added stage will be set as default
-
-        **Return**
-
-        The known states as a tuple, where the 1st element contains the names of the states,
-        and the 2nd element contains the actual states.
+        * runable - Task or state to add
+        * default - If true and runable is a state, it'll be set as default
         """
-        return self.driver.add(state, default)
+        self.driver.add(runable, default)
 
     def switch(self, id):
         """
@@ -100,88 +104,71 @@ class StatefulRobot(Robot):
         """
         self.driver.switch(id)
 
-    def register(self, id, listener: Callable[[Event], None]):
+    def register(self, id, handler: Callable[[Event], None]):
         """
-        Registers a listener to an event id.
+        Register a handler to an event id.
 
         **Argument(s)**
         * id - Event id.
-        * listener - Function callback. It'll get passed an Event object.
+        * handler - Event handler. It'll get passed an Event object.
         """
-        self.driver.register(id, listener)
+        self.driver.register(id, handler)
 
-    def task(self, task: Task):
+    def unregister(self, id, handler: Callable[[Event], None]):
         """
-        Registers a task. If the driver is already started, this is a no-op.
+        Register a handler to an event id.
 
         **Argument(s)**
-        * task - Task to add.
+        * id - Event id.
+        * handler - Event handler.
         """
-        self.driver.task(task)
-        
-    def start_driver(self):
+        self.driver.register(id, handler)
+
+    def wait(self, waitable: Waitable):
         """
-        Starts the driver. If the driver is already started or no states has been added, this is a no-op.
+        Awaits execution of a waitable untill it's awaken.
+
+        **Argument(s)**
+        * waitable - A robot or driver
+        """
+        if isinstance(waitable, Robot):
+            super().wait()
+        else:
+            self.driver.wait()
+
+    def wait_for(self, event: Event):
+        """
+        Awaits execution untill the event is fired.
+        """
+        def f(_):
+            self.wake(self)
+        self.driver.register(event, f)
+        self.wait(self)
+        self.driver.unregister(event, f)
+
+    def wake(self, waitable: Waitable):
+        """
+        Wakes a waitable.
+
+        **Argument(s)**
+        * waitable - A robot or driver
+        """
+        if isinstance(waitable, Robot):
+            super().wake()
+        else:
+            self.driver.wake()
+
+    def start(self):
+        """
+        Starts the robot.
         """
         self.driver.start()
 
-    def stop_driver(self):
+    def stop(self):
         """
-        Stops the driver. If the driver is already stopped, this is a no-op.
+        Stops the robot.
         """
-        self.driver.stop()
-   
-if __name__ == "__main__":
-    class BackgroundEvent(Event):
-        @dataclass
-        class Type:
-            BACKGROUND = "robot-event-background"
-
-        def __init__(self, id, robot, **kwords: str):
-            super().__init__(id, robot, **kwords)
-            self.msg = kwords["msg"]         
-
-    class BackgroundTask(Task):
-        def run(self, robot):
-            print("\t\tHello from background")
-
-    class FooState(State):
-        def run(self, robot):
-            print("\t\tHello from foo")
-            
-    class BarEvent(Event):
-        @dataclass
-        class Type:
-            BAR = "robot-event-bar"
-
-        def __init__(self, id, robot, **kwords: str):
-            super().__init__(id, robot, **kwords)
-            self.msg = kwords["msg"]
-
-    class BarState(State):
-        def run(self, robot):
-            self.fire(BarEvent(BarEvent.Type.BAR, robot, msg="\t\tHello from bar"))
-            self.done(True)
-
-    def handleBar(e: BarEvent):
-        print(e.msg)
-
-    def handleBarAgain(e: BarEvent):
-        print("{0} again".format(e.msg))
-
-    test = StatefulRobot([FooState("foo"), BarState("bar")])
-    test.task(BackgroundTask())
-    test.register(BarEvent.Type.BAR, handleBar)
-    test.register(BarEvent.Type.BAR, handleBarAgain)
-    test.start()
-    test.start()
-    sleep(0.1)
-    test.switch("bar")
-    sleep(2)
-    test.stop_driver()
-    test.stop_driver()
-    test.add(State("baz"))
-    print(len(test.driver))
-    test.add(State("baz"))
-    print(len(test.driver))
-    test.switch("nope")
+        try:
+            super().stop()
+        except:
+            pass   
