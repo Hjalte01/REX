@@ -24,11 +24,13 @@ class RRT:
             self.pos = pos      #configuration position, usually 2D/3D for planar robots  
             self.path = []      #the path with a integration horizon. this could be just a straight line for holonomic system
             self.parent = None
+            if len(pos) == 2:
+                self.pos = np.array([pos[0], pos[1], 0.0])
         
         def calc_distance_to(self, to_node):
             # node distance can be nontrivial as some form of cost-to-go function for e.g. underactuated system
             # use euclidean norm for basic holonomic point mass or as heuristics
-            d = np.linalg.norm(np.array(to_node.pos) - np.array(self.pos))
+            d = np.linalg.norm(np.array(to_node.pos[:2]) - np.array(self.pos[:2]))
             return d
         
     def __init__(self,
@@ -92,12 +94,10 @@ class RRT:
 
     def steer(self, from_node, to_node, extend_length=float("inf")):
         # integrate the robot dynamics towards the sampled position
-        # for holonomic point pass robot, this could be straight forward as a straight line in Euclidean space
-        # while need some local optimization to find the dynamically closest path otherwise
         new_node = self.Node(from_node.pos)
         d = new_node.calc_distance_to(to_node)
 
-        new_node.path = [new_node.pos]
+        new_node.path = [new_node.pos]  # Ensure the full [x, y, theta] is stored
 
         if extend_length > d:
             extend_length = d
@@ -106,21 +106,22 @@ class RRT:
 
         if n_expand > 0:
             steer_path = self.robot.inverse_dyn(new_node.pos, to_node.pos, n_expand)
-            #use the end position to represent the current node and update the path
+            # Use the last point as the new node's position
             new_node.pos = steer_path[-1]
             new_node.path += steer_path
 
         d = new_node.calc_distance_to(to_node)
         if d <= self.path_resolution:
-            #this is considered as connectable
+            # Consider it as connectable, include [x, y, theta]
             new_node.path.append(to_node.pos)
 
-            #so this position becomes the representation of this node
+            # This position becomes the new node's representation
             new_node.pos = to_node.pos.copy()
 
         new_node.parent = from_node
 
         return new_node
+
 
     def generate_final_course(self, goal_ind):
         path = [self.end.pos]
@@ -142,21 +143,18 @@ class RRT:
         return rnd
 
     def draw_graph(self, rnd=None):
-        # plt.clf()
-        # # for stopping simulation with the esc key.
-        # plt.gcf().canvas.mpl_connect(
-        #     'key_release_event',
-        #     lambda event: [exit(0) if event.key == 'escape' else None])
         plt.clf()
-        if rnd is not None:
-            plt.plot(rnd.pos[0], rnd.pos[1], "^k")
 
-        # draw the map
+        if rnd is not None:
+            plt.plot(rnd.pos[0], rnd.pos[1], "^k")  # Plot random node
+
+        # Draw the map
         self.map.draw_map()
 
         for node in self.node_list:
             if node.parent:
-                path = np.array(node.path)
+                # Extract the x, y components from the full pose [x, y, theta]
+                path = np.array([p[:2] for p in node.path])  
                 plt.plot(path[:, 0], path[:, 1], "-g")
 
         plt.plot(self.start.pos[0], self.start.pos[1], "xr")
@@ -164,6 +162,7 @@ class RRT:
         plt.axis(self.map.extent)
         plt.grid(True)
         plt.pause(0.01)
+
 
 
     @staticmethod
@@ -196,8 +195,8 @@ def main():
     robot = robot_models.RobotModel(ctrl_range=[-path_res, path_res])   #
 
     rrt = RRT(
-        start=[0, 0],
-        goal=[0, 1.9],
+        start=[0, 0, 0],
+        goal=[0, 1.9, 0],
         robot_model=robot,
         map=map,
         expand_dis=0.2,
@@ -220,7 +219,7 @@ def main():
             # Draw final path
             if show_animation:
                 rrt.draw_graph()
-                plt.plot([x for (x, y) in path], [y for (x, y) in path], '-r')
+                plt.plot([x for (x, y, _) in path], [y for (x, y, _) in path], '-r')
                 plt.grid(True)
                 plt.pause(0.01)  # Need for Mac
                 plt.show()

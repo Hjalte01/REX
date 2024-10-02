@@ -17,6 +17,8 @@ class RobotModel:
             x_new = path[-1] + u[i] #u is velocity command here
             path.append(x_new)    
         
+        # here we need to move the robot (u*T) steps forward towards (x_goal)
+
         
         return path[1:]
 
