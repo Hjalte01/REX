@@ -9,6 +9,12 @@ https://github.com/AtsushiSakai/PythonRobotics/blob/master/PathPlanning/RRT/rrt.
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FFMpegWriter
+from time import sleep
+
+import robot
+
+# Create a robot object and initialize
+arlo = robot.Robot()
 
 class RRT:
     """
@@ -183,12 +189,57 @@ class RRT:
         return True
 
 
+
+
+left_motor_diff = 0.875
+
+# send a go_diff command to drive forward
+leftSpeed = 40*left_motor_diff
+rightSpeed = 40
+
+def forward(len):
+    distance = 4.5 * len # in meters
+
+    print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
+    # Wait a bit while robot moves forward
+    sleep(distance)
+
+    # send a stop command
+    print(arlo.stop())
+
+
+def rotate(degree):
+    constant_for_turning_90_degree = 1.5
+    time_for_turning_one_degree = constant_for_turning_90_degree / 90
+
+    # send a go_diff command to turn left
+    if (degree < 0):
+        print(arlo.go_diff(leftSpeed, rightSpeed, 0, 1))
+    else:
+        print(arlo.go_diff(leftSpeed, rightSpeed, 1, 0))
+
+    # Wait a bit while robot turns left
+    sleep(time_for_turning_one_degree*degree)
+
+
+def path_run(path):
+    path = path.reverse()
+    for i in range(len(path)-1):
+        dist = np.linalg.norm(path[i+1][:2] - path[i][:2])
+        theta = path[i][2]
+        rotate(theta)
+        forward(dist)
+
+    return path
+
+
 import grid_occ, robot_models
 
 def main():
-
+    robot_size = 0.45
     path_res = 0.05
-    map = grid_occ.GridOccupancyMap(low=(-1, 0), high=(1, 2), res=path_res)
+    grid_size = 5
+    map = grid_occ.GridOccupancyMap(low=(-grid_size, -grid_size), high=(grid_size, grid_size), res=path_res)
     map.populate()
 
     # robot = robot_models.PointMassModel(ctrl_range=[-path_res, path_res])   #
@@ -196,10 +247,10 @@ def main():
 
     rrt = RRT(
         start=[0, 0, 0],
-        goal=[0, 1.9, 0],
+        goal=[4, 4.5, 0],
         robot_model=robot,
         map=map,
-        expand_dis=0.2,
+        expand_dis=0.45,
         path_resolution=path_res,
         )
     
@@ -207,14 +258,18 @@ def main():
     metadata = dict(title="RRT Test")
     writer = FFMpegWriter(fps=15, metadata=metadata)
     fig = plt.figure()
-    
+
     with writer.saving(fig, "rrt_test.mp4", 100):
         path = rrt.planning(animation=show_animation, writer=writer)
-
+        
         if path is None:
             print("Cannot find path")
         else:
             print("found path!!")
+            print(path)
+            print(len(path))
+
+            path_run(path)
 
             # Draw final path
             if show_animation:
