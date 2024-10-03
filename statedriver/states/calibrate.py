@@ -2,23 +2,15 @@ from time import sleep
 import cv2, cv2.aruco as aruco  # type: ignore
 import numpy as np
 from typing import Tuple
-from dataclasses import dataclass
-from statedriver.statefulrobot import State, Event, StatefulRobot
+from statedriver.statefulrobot import StatefulRobot
+from statedriver.driver import EventType, Event, State
 
 class CalibrateEvent(Event):
-    @dataclass
-    class Type:
-        PASS_COMPLETE           = "robot-event-pass-complete"
-        CALIBRATION_COMPLETE    = "robot-event-calibration-complete"
-
-    def __init__(self, id, **kwords: str):
-        super().__init__(id, **kwords)
-        if len(kwords):
-            self.cam_matrix     = kwords["arg0"]
-            self.dist_coeffs    = kwords["arg1"]
+    PASS_COMPLETE           = EventType("event-pass-complete")
+    CALIBRATION_COMPLETE    = EventType("event-calibration-complete")
 
 class CalibrateState(State):
-    ID = "robot-state-calibration"
+    ID = "state-calibration"
 
     def __init__(self, x: int, grid: Tuple[int, int], gap: int, passes = 4):
         super().__init__(CalibrateState.ID)
@@ -54,14 +46,14 @@ class CalibrateState(State):
         if self.__mode__ == 0x6:
             self.__passes__ -= 1
             self.__mode__ = 0x0
-            self.fire(CalibrateEvent(CalibrateEvent.Type.PASS_COMPLETE))
+            self.fire(CalibrateEvent(CalibrateEvent.PASS_COMPLETE))
             robot.stop()
         elif self.__mode__  == 0x4:
             robot.go_diff(40, 40, 0, 1) # pan right
         else:
             robot.go_diff(40, 40, 1, 0) # pan left
 
-        if not self.done(self.__passes__ <= 0):
+        if self.__passes__ > 0:
             return
         
         _, cam_matrix, dist_coeffs, _, _ = aruco.calibrateCameraAruco(
@@ -74,6 +66,11 @@ class CalibrateState(State):
             None,
             None
         )
+
         self.fire(CalibrateEvent(
-            CalibrateEvent.Type.CALIBRATION_COMPLETE, arg0=cam_matrix, arg1=dist_coeffs)
+            CalibrateEvent.CALIBRATION_COMPLETE, 
+            cam_matrix=cam_matrix, 
+            dist_coeffs=dist_coeffs
+            )
         )
+        self.done(True)
