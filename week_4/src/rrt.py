@@ -13,7 +13,7 @@ class RRT(object):
 
         self.grid = grid
         self.robot_size = robot_size
-        self.step_size = robot_size
+        self.step_size = 1 # step size is equal to 1, so the robot can move to any of the 8 neighboring cells
         self.diag_step_size = math.sqrt(self.step_size**2 + self.step_size**2)
         self.init_cell = Cell(self.grid.grid_size/2, self.grid.grid_size/2, True)
         self.parent_cell = self.init_cell
@@ -26,6 +26,9 @@ class RRT(object):
         self.parent_list = []
         self.route.append(self.init_cell)
         self.parent_list.append(0)
+
+        # Visited cells
+        self.visited_cells = set()
 
 
     def collision_check_point(self, cell):
@@ -64,7 +67,7 @@ class RRT(object):
                 x_index = self.parent_cell.x + i
                 y_index = self.parent_cell.y + j
                 if x_index < 0 or x_index > self.grid.grid_size: continue
-                if y_index < 0 or x_index > self.grid.grid_size: continue
+                if y_index < 0 or y_index > self.grid.grid_size: continue
                 dist = self.distance_to_rnd(Cell(x_index, y_index))
                 if (dist < min):
                     closest_cell_bool = self.collision_check_point(Cell(x_index, y_index))
@@ -86,13 +89,24 @@ class RRT(object):
         self.parent_cell = self.route[min_index]
 
 
-    def new_point_generate(self, closest_cell):
-        closest_cell.parent = self.parent_cell
-        closest_cell.occupied = True
-        self.route.append(closest_cell)
+    # def new_point_generate(self, closest_cell):
+    #     closest_cell.parent = self.parent_cell
+    #     self.route.append(closest_cell)
+    #     closest_cell.occupied = True
             
+    def new_point_generate(self, closest_cell):
+        # Check if the cell has already been visited
+        if (closest_cell.x, closest_cell.y) in self.visited_cells:
+            return  # Skip this cell if it's already visited
+
+        closest_cell.parent = self.parent_cell
+        self.route.append(closest_cell)
+        self.visited_cells.add((closest_cell.x, closest_cell.y))  # Mark cell as visited
+        closest_cell.occupied = True
+
 
     def connect_to_goal(self):
+        # check if the new vertex can connect with the final point 
         dist = np.linalg.norm([self.parent_cell.x - self.final_cell.x, self.parent_cell.y - self.final_cell.y])
         if dist <= self.diag_step_size:
             return True
@@ -104,9 +118,9 @@ class RRT(object):
         for i in range(self.grid.grid_size):
             for j in range(self.grid.grid_size):
                 if self.grid.grid[i][j].occupied == True:
-                    plt.plot(i, j, "sk", color = "red")
+                    plt.plot(i, j, color = "black", marker = "s")
                 else:
-                    plt.plot(i, j, "ok", color = "blue")
+                    plt.plot(i, j, color = "blue", marker = "s")
 
         for i in range(int(len(final_route))-1):
             plt.plot([final_route[i][0], final_route[i+1][0]], [final_route[i][1], final_route[i+1][1]], "r")
@@ -124,12 +138,15 @@ class RRT(object):
   
     def print_route(self):
         route = self.route
+        for cell in route:
+            print(cell.x, cell.y)
         print("Route len:", len(route))
         route = list(set(route))
         print("Route len:", len(route))
 
+
     def RRT(self, iterations = 5000):
-        #generate and plot circles
+
 
         for i in range(iterations):
             #check if the new vertex can connect with the final point
@@ -153,7 +170,7 @@ class RRT(object):
             # Generate new vertex according to closest cell
             self.new_point_generate(closest_cell)
 
-        print(i)
+        print("iterations: ", i)
         
         
         # print(self.final_route())
@@ -174,6 +191,9 @@ grid_size = 20
 robot_size = 0.45
 
 grid = Grid(robot_size, grid_size)
+# add obstacles
+grid.obstacles = [Cell(12,12,True), Cell(12,13,True), Cell(12,14,True), Cell(12,15,True), Cell(12,16,True), Cell(12,17,True), Cell(13,12,True), Cell(14,12,True), Cell(15,12,True), Cell(16,12,True), Cell(17,12,True), Cell(17,13,True), Cell(17,14,True), Cell(17,15,True), Cell(17,16,True), Cell(17,17,True), Cell(13,17,True), Cell(14,17,True), Cell(15,17,True), Cell(16,17,True)]
+grid.update_grid()
 rrt = RRT(grid, robot_size)
 rrt.RRT()
 
