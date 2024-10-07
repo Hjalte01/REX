@@ -16,7 +16,7 @@ print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
 sleep(3)
 
 # send a stop command
-print(arlo.stop())
+print(arlo.stop_driver())
 
 # Wait a bit before next command
 sleep(0.041)
@@ -28,7 +28,7 @@ print(arlo.go_diff(leftSpeed, rightSpeed, 0, 0))
 sleep(3)
 
 # send a stop command
-print(arlo.stop())
+print(arlo.stop_driver())
 
 # Wait a bit before next command
 sleep(0.041)
@@ -63,7 +63,7 @@ print(arlo.go_diff(leftSpeed, rightSpeed, 1, 1))
 sleep(3)
 
 # send a stop command
-print(arlo.stop())
+print(arlo.stop_driver())
 
 # Wait a bit before next command
 sleep(0.041)
@@ -75,7 +75,7 @@ print(arlo.go_diff(leftSpeed, rightSpeed, 0, 0))
 sleep(3)
 
 # send a stop command
-print(arlo.stop())
+print(arlo.stop_driver())
 
 
 

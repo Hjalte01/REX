@@ -118,11 +118,11 @@ class ExtendedRobot(Robot):
             # task.daemon = True
             task.start()
 
-    def stop(self):
+    def stop_driver(self):
         """
         Stops the robot and terminates running threads.
         """
-        super().stop()
+        super().stop_driver()
 
         with self.con:
             self.alive = False

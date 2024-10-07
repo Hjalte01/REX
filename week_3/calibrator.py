@@ -118,7 +118,7 @@ def main():
         get_landmark(cam, aruco_dict)
         sleep(0.01)
 
-    print(arlo.stop())
+    print(arlo.stop_driver())
     sleep(1)
 
     cam.stop()
@@ -130,4 +130,3 @@ print(len(all_ids))
 
 # frame = cam.capture_array("main")
 # cv2.imwrite("image.png", frame)
-

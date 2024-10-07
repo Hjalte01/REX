@@ -112,10 +112,10 @@ def main():
         
         sleep(1)
         left = get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length, left)
-        print(arlo.stop())
+        print(arlo.stop_driver())
         sleep(1)
 
-    print(arlo.stop())
+    print(arlo.stop_driver())
     sleep(1)
 
     cam.stop()
