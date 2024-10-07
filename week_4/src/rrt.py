@@ -12,14 +12,18 @@ class RRT(object):
     def __init__(self, grid = Grid(0.45), robot_size = 0.45):
 
         self.grid = grid
-        self.final_route = []
         self.robot_size = robot_size
         self.step_size = robot_size
         self.init_cell = Cell(robot_size/2,robot_size/2, True)
         self.new_cell = self.init_cell
         self.final_cell = Cell(robot_size-2, robot_size-2)
         self.rnd_cell = self.random_cell()
-
+        
+        # Final route and parent list
+        self.final_route = []
+        self.parent_list = []
+        self.final_route.append(self.init_cell)
+        self.parent_list.append(0)
 
 
     def collision_check_point(self, cell):
@@ -47,6 +51,7 @@ class RRT(object):
         # sort the list of cells in the following function with distance to rnd_cell
         return np.linalg.norm(cell.x - self.rnd_cell.x, cell.y - self.rnd_cell.y)
     
+
     def collision_check_line(self):
         # get a list of the best options to try for the new cell in path
         closest_cell = 0
@@ -66,10 +71,9 @@ class RRT(object):
         return collision_bool, closest_cell
     
 
-
     def nearest_cell(self):
         # Returns the nearest cell to the given cell
-        min_cell = 2 * self.grid.grid_x ** 2
+        min_cell = 2 * self.grid.grid_size ** 2
         min_index = 0
         for index, cell in enumerate(self.final_route):
             length = np.linalg.norm(self.rnd_cell.x - cell.x, self.rnd_cell.y - cell.y)
@@ -77,6 +81,7 @@ class RRT(object):
                 min_cell = length
                 min_index = index
         return min_index, self.final_route[min_index]                
+
 
     def new_point_generate(self):
         
@@ -99,6 +104,7 @@ class RRT(object):
             plt.plot(self.rnd_cell.x, self.rnd_cell.y, "^k")
         
         self.map.draw_map()
+
 
     def RRT(self, start_pos, end_pos):
         #generate and plot circles
