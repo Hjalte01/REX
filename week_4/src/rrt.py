@@ -40,7 +40,7 @@ class RRT(object):
         # get a random cell
         x = np.random.randint(0, self.grid.grid_size)
         y = np.random.randint(0, self.grid.grid_size)
-        self.rnd_cell = Cell(x, y)
+        self.rnd_cell = self.grid.grid[x][y]
     
 
     # def collision_rnd_cell(self):
@@ -64,14 +64,14 @@ class RRT(object):
         for i in range(-1,2):
             for j in range(-1,2):
                 if (i == 0 and j == 0): continue
-                x_index = self.parent_cell.x + i
-                y_index = self.parent_cell.y + j
-                if x_index < 0 or x_index > self.grid.grid_size: continue
-                if y_index < 0 or y_index > self.grid.grid_size: continue
-                dist = self.distance_to_rnd(Cell(x_index, y_index))
+                x_index = int(self.parent_cell.x + i)
+                y_index = int(self.parent_cell.y + j)
+                if x_index < 0 or x_index >= self.grid.grid_size: continue
+                if y_index < 0 or y_index >= self.grid.grid_size: continue
+                dist = self.distance_to_rnd(self.grid.grid[x_index][y_index])
                 if (dist < min):
-                    closest_cell_bool = self.collision_check_point(Cell(x_index, y_index))
-                    closest_cell = Cell(x_index, y_index, closest_cell_bool)
+                    self.grid.grid[x_index][y_index].occupied = self.collision_check_point(self.grid.grid[x_index][y_index])
+                    closest_cell = self.grid.grid[x_index][y_index]
                     min = dist
         collision_bool = self.collision_check_point(closest_cell)
         return collision_bool, closest_cell
@@ -89,25 +89,22 @@ class RRT(object):
         self.parent_cell = self.route[min_index]
 
 
-    # def new_point_generate(self, closest_cell):
-    #     closest_cell.parent = self.parent_cell
-    #     self.route.append(closest_cell)
-    #     closest_cell.occupied = True
-            
     def new_point_generate(self, closest_cell):
         # Check if the cell has already been visited
         if (closest_cell.x, closest_cell.y) in self.visited_cells:
+            print("Skipped a cell, error!")
             return  # Skip this cell if it's already visited
 
         closest_cell.parent = self.parent_cell
+        closest_cell.occupied = True
         self.route.append(closest_cell)
         self.visited_cells.add((closest_cell.x, closest_cell.y))  # Mark cell as visited
-        closest_cell.occupied = True
 
 
     def connect_to_goal(self):
         # check if the new vertex can connect with the final point 
         dist = np.linalg.norm([self.parent_cell.x - self.final_cell.x, self.parent_cell.y - self.final_cell.y])
+        
         if dist <= self.diag_step_size:
             return True
         return False
@@ -118,18 +115,25 @@ class RRT(object):
         for i in range(self.grid.grid_size):
             for j in range(self.grid.grid_size):
                 if self.grid.grid[i][j].occupied == True:
-                    plt.plot(i, j, color = "black", marker = "s")
+                    plt.plot(i, j, color = "grey", marker = "s")
                 else:
-                    plt.plot(i, j, color = "blue", marker = "s")
+                    plt.plot(i, j, color = "grey", marker = "s", alpha = 0.0)
+        for obstacle in self.grid.obstacles:
+            plt.plot(obstacle.x, obstacle.y, color = "black", marker = "s")
+            
+        plt.plot(self.init_cell.x, self.init_cell.y, color = "green", marker = "s")
+        plt.plot(self.final_cell.x, self.final_cell.y, color = "red", marker = "s")
 
         for i in range(int(len(final_route))-1):
             plt.plot([final_route[i][0], final_route[i+1][0]], [final_route[i][1], final_route[i+1][1]], "r")
+
+
         plt.show()
 
         
 
     def get_final_route(self):
-        final_route = [[self.final_cell.x, self.final_cell.x]]
+        final_route = [[self.final_cell.x, self.final_cell.x], [self.parent_cell.x, self.parent_cell.y]]
         while (self.parent_cell.parent != None):
             self.parent_cell = self.parent_cell.parent
             final_route.append([self.parent_cell.x, self.parent_cell.y])
@@ -175,9 +179,9 @@ class RRT(object):
         
         # print(self.final_route())
         print("success!")
-        print(len(self.route))
-        print(self.print_route())
-        print(self.draw_graph())
+        print("length of route: ", len(self.route))
+        # print(self.print_route())
+        self.draw_graph()
 
 
 
