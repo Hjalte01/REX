@@ -20,10 +20,10 @@ class Pos(object):
 
 class Grid(object):
 
-    def __init__(self, cell_x, grid_x = 20):
+    def __init__(self, cell_size, grid_size = 20):
         super(Grid, self).__init__()
-        self.cell_x = cell_x
-        self.grid_x = grid_x
+        self.cell_size = cell_size
+        self.grid_size = grid_size
         self.grid = self.__generate__()
         self.obstacles = []
 
@@ -32,18 +32,19 @@ class Grid(object):
         kate_1 = obstacle_pos.real_length * np.cos(obstacle_pos.real_angel)
         kate_2 = obstacle_pos.real_length * np.sin(obstacle_pos.real_angel)
 
-        x = kate_1 // self.cell_x
-        y = kate_2 // self.cell_x
-
+        x = kate_1 // self.cell_size
+        y = kate_2 // self.cell_size
 
         self.obstacles.append(Cell(robot_cell.x+x, robot_cell.y+y, True))
 
+    def update_grid(self):
+
+        for obstacle in self.obstacles:
+            self.grid[obstacle.x][obstacle.y].occupied = True
 
     def __generate__(self):
         # Generates the grid
-        result = []
-        for i in range(self.cell_x):
-            for j in range(self.cell_x):
-                cell = Cell(i, j)
-                result.append(cell)
-        return result
+        result = np.zeroes((self.grid_size, self.grid_size))
+        for i in range(self.grid_size):
+            for j in range(self.grid_size):
+                result[i][j] = Cell(i, j)
