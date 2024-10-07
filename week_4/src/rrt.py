@@ -72,7 +72,7 @@ class RRT(object):
     
 
     def nearest_cell(self):
-        # Returns the nearest cell to the given cell
+        # Returns the nearest cell to the given random cell
         min_cell = 2 * self.grid.grid_size ** 2
         min_index = 0
         for index, cell in enumerate(self.final_route):
