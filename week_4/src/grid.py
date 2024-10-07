@@ -44,7 +44,8 @@ class Grid(object):
 
     def __generate__(self):
         # Generates the grid
-        result = np.zeroes((self.grid_size, self.grid_size))
+        result = np.full((self.grid_size, self.grid_size), Cell(0, 0))
         for i in range(self.grid_size):
             for j in range(self.grid_size):
                 result[i][j] = Cell(i, j)
+        return result
