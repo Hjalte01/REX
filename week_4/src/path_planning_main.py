@@ -113,7 +113,7 @@ def main():
 
     arlo = robot.Robot()
     # Create the grid
-    grid_size = 20
+    grid_size = 6
     cell_size = 1
     robot_size = 0.45
     grid_obj = grid.Grid(cell_size, grid_size)
@@ -135,12 +135,12 @@ def main():
     for index in range(len(final_route)):
         if (index >= len(final_route)-1): break
         distance = np.linalg.norm([final_route[index][0] - final_route[index+1][0], final_route[index][1] - final_route[index+1][1]])
-        angle = np.arctan2(final_route[index][0] - final_route[index+1][0], final_route[index][1] - final_route[index+1][1])
+        angle = -np.arctan2(final_route[index][0] - final_route[index+1][0], final_route[index][1] - final_route[index+1][1])
         degrees = np.degrees(angle)
         # walk_and_rotate(arlo, distance, angle)
         print("Robot moved to: ", final_route[index+1][0], final_route[index+1][1])
         print("distance: ", distance, "angle: ", degrees)
-        print("Robot moved to: ", arlo.current_angle)
+        # print("Robot moved to: ", arlo.current_angle)
 
 
 main()
