@@ -90,7 +90,7 @@ def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length):
         # Calculate the distance and angle between the robot and the landmarks
 
         distances = [np.linalg.norm(tvec) for tvec in tvecs]
-        angles = [np.arctan2(tvec[0][0], tvec[0][2]) for tvec in tvecs]
+        angles = [np.arctan2(tvec[0][2], tvec[0][0]) for tvec in tvecs]
 
         print("Distance: ", distances)
         print("Angle: ", angles)
@@ -135,7 +135,7 @@ def main():
     for index in range(len(final_route)):
         if (index >= len(final_route)-1): break
         distance = np.linalg.norm([final_route[index][0] - final_route[index+1][0], final_route[index][1] - final_route[index+1][1]])
-        angle = np.arctan2(final_route[index][0] - final_route[index+1][0], final_route[index][1] - final_route[index+1][1])
+        angle = np.arctan2(final_route[index][1] - final_route[index+1][1], final_route[index][0] - final_route[index+1][0])
         degrees = np.degrees(angle)
         # walk_and_rotate(arlo, distance, angle)
         print("Robot moved to: ", final_route[index+1][0], final_route[index+1][1])
