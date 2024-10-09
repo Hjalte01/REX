@@ -110,8 +110,8 @@ def walk_and_rotate(robot, distance, angle):
 
 # Main loop for the path planning
 def main():
-    robot = robot.Robot()
 
+    arlo = robot.Robot()
     # Create the grid
     grid_size = 20
     cell_size = 1
@@ -137,10 +137,10 @@ def main():
         distance = np.linalg.norm([pos[0] - final_route[index+1][0], pos[1] - final_route[index+1][1]])
         angle = np.arctan2(pos[0] - final_route[index+1][0], pos[1] - final_route[index+1][1])
         degrees = np.degrees(angle)
-        # walk_and_rotate(robot, distance, angle)
+        # walk_and_rotate(arlo, distance, angle)
         print("Robot moved to: ", pos[0], pos[1])
         print("distance: ", distance, "angle: ", degrees)
-        print("Robot moved to: ", robot.current_angle)
+        print("Robot moved to: ", arlo.current_angle)
 
 
 main()
