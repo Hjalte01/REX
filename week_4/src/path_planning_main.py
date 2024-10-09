@@ -143,6 +143,6 @@ def main():
         # print("distance: ", distance, "angle: ", degrees)
 
 
-#main()
-arlo = robot.Robot()
-arlo.test_move()
+main()
+# arlo = robot.Robot()
+# arlo.test_move()
