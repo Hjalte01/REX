@@ -15,7 +15,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import robot
 import grid
-import rrt.RRT as RRT
+import rrt
 
 try:
     import picamera2
@@ -111,7 +111,7 @@ def main():
     grid_obj = grid.Grid(cell_size, grid_size)
 
     # Create the RRT object
-    rrt = RRT(grid_obj, robot_size)
+    rrt_algorithm = rrt.RRT(grid_obj, robot_size)
 
     # Add obstacles to the grid by using the get_landmark function
     distances, angles = get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length)
@@ -121,7 +121,7 @@ def main():
             grid_obj.add_obstacle(rrt.init_cell, pos)
     
 
-    rrt.RRT()
+    rrt_algorithm.RRT()
 
 
 
