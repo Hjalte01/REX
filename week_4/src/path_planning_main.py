@@ -113,7 +113,7 @@ def main():
 
     arlo = robot.Robot()
     # Create the grid
-    grid_size = 6
+    grid_size = 8
     cell_size = 1
     robot_size = 0.45
     grid_obj = grid.Grid(cell_size, grid_size)
