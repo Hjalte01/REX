@@ -216,6 +216,16 @@ class Robot(object):
 
 # our changes -------------------------------------
 
+# test section
+
+    def test_rotate(self):
+        """ Rotate robot by deg, if deg > 0 rotate right, if deg < 0 rotate left"""
+        
+        self.rotate(360)
+
+# main section
+
+
     def rotate(self, deg):
         """ Rotate robot by deg, if deg > 0 rotate right, if deg < 0 rotate left"""
         
