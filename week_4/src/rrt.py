@@ -127,8 +127,10 @@ class RRT(object):
         for i in range(int(len(final_route))-1):
             plt.plot([final_route[i][0], final_route[i+1][0]], [final_route[i][1], final_route[i+1][1]], "r")
 
-
+        plt.savefig("RRT.png")
         plt.show()
+
+        
 
         
 

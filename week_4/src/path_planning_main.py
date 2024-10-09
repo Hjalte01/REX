@@ -130,3 +130,5 @@ def main():
 
     print(rrt_algorithm.get_final_route())
 
+
+main()
