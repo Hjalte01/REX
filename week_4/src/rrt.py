@@ -158,14 +158,14 @@ class RRT(object):
             if self.connect_to_goal() == True:
                 break
             
-            rrt.random_cell()
+            self.random_cell()
             #check for the start and end points
-            while (rrt.collision_check_point(self.rnd_cell) == True):
-                rrt.random_cell()
+            while (self.collision_check_point(self.rnd_cell) == True):
+                self.random_cell()
             
             self.nearest_cell()
       
-            collision_bool, closest_cell = rrt.collision_check_line()
+            collision_bool, closest_cell = self.collision_check_line()
 
             # Check if the cloest cell is occipied
             if collision_bool == True:
