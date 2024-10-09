@@ -225,7 +225,7 @@ class Robot(object):
             self.go_diff(self.leftSpeed*1.87, self.rightSpeed, 1, 0)
         else:
             self.go_diff(self.leftSpeed*1.87, self.rightSpeed, 0, 1)
-        sleep(self.turn_1_degree*deg)
+        sleep(self.turn_1_degree*abs(deg))
 
 
     def move(self, len):
