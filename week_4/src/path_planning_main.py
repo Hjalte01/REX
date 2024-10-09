@@ -99,7 +99,7 @@ def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length):
         distances = [np.linalg.norm(tvec) for tvec in tvecs]
         angles = [np.arctan2(tvec[0][2], tvec[0][0]) for tvec in tvecs]
 
-        # Convert distance to mm
+        # Convert distance to from meters to milimeters
         distances = [distances[i] * 1000 for i in range(len(distances))]
 
         print("Distance (mm): ", distances)
