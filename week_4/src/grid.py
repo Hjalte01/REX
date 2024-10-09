@@ -35,7 +35,8 @@ class Grid(object):
         x = kate_1 // self.cell_size
         y = kate_2 // self.cell_size
 
-        self.obstacles.append(Cell(robot_cell.x+x, robot_cell.y+y, True))
+        self.grid[robot_cell.x+x][robot_cell.y+y].occupied = True
+        self.obstacles.append(self.grid[robot_cell.x+x][robot_cell.y+y])
 
     def update_grid(self):
 

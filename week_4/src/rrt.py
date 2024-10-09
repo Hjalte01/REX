@@ -17,7 +17,7 @@ class RRT(object):
         self.diag_step_size = math.sqrt(self.step_size**2 + self.step_size**2)
         self.init_cell = Cell(self.grid.grid_size/2, self.grid.grid_size/2, True)
         self.parent_cell = self.init_cell
-        self.final_cell = Cell(self.grid.grid_size-2, self.grid.grid_size-2, True)
+        self.final_cell = Cell(self.grid.grid_size/2, self.grid.grid_size-2, True)
         self.rnd_cell = None
         self.random_cell()
         
@@ -190,16 +190,16 @@ class RRT(object):
 #--------------------------------------------------------
 # run RRT example:
 #--------------------------------------------------------
-# set 
-grid_size = 20
-robot_size = 0.45
+# # set 
+# grid_size = 20
+# robot_size = 0.45
 
-grid = Grid(robot_size, grid_size)
-# add obstacles
-grid.obstacles = [Cell(12,12,True), Cell(12,13,True), Cell(12,14,True), Cell(12,15,True), Cell(12,16,True), Cell(12,17,True), Cell(13,12,True), Cell(14,12,True), Cell(15,12,True), Cell(16,12,True), Cell(17,12,True), Cell(17,13,True), Cell(17,14,True), Cell(17,15,True), Cell(17,16,True), Cell(17,17,True), Cell(13,17,True), Cell(14,17,True), Cell(15,17,True), Cell(16,17,True)]
-grid.update_grid()
-rrt = RRT(grid, robot_size)
-rrt.RRT()
+# grid = Grid(robot_size, grid_size)
+# # add obstacles
+# grid.obstacles = [Cell(12,12,True), Cell(12,13,True), Cell(12,14,True), Cell(12,15,True), Cell(12,16,True), Cell(12,17,True), Cell(13,12,True), Cell(14,12,True), Cell(15,12,True), Cell(16,12,True), Cell(17,12,True), Cell(17,13,True), Cell(17,14,True), Cell(17,15,True), Cell(17,16,True), Cell(17,17,True), Cell(13,17,True), Cell(14,17,True), Cell(15,17,True), Cell(16,17,True)]
+# grid.update_grid()
+# rrt = RRT(grid, robot_size)
+# rrt.RRT()
 
 
 
