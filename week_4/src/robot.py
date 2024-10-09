@@ -232,9 +232,9 @@ class Robot(object):
         deg = deg - self.current_angle
         self.current_angle = deg
         if deg > 0:
-            self.go_diff(self.leftSpeed*1.87, self.rightSpeed, 1, 0)
+            self.go_diff(self.leftSpeed, self.rightSpeed, 1, 0)
         else:
-            self.go_diff(self.leftSpeed*1.87, self.rightSpeed, 0, 1)
+            self.go_diff(self.leftSpeed, self.rightSpeed, 0, 1)
         sleep(self.turn_1_degree*abs(deg))
 
 
