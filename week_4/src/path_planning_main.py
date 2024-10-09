@@ -66,7 +66,18 @@ img_dict = aruco.getPredefinedDictionary(aruco.DICT_6X6_250) # As per the assign
 
 
 def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length):
-    """Get the landmark from the camera and return the distance and angle between the robot and the landmark"""
+    """
+    Get the landmark from the camera and return the distance (mm) and angle (rad) between the robot and the landmark
+    Args:
+        - cam: Camera object
+        - img_dict: Aruco dictionary
+        - cam_matrix: Camera matrix
+        - coeff_vector: Coefficients vector
+        - marker_length: Length of the aruco marker
+    Returns:
+    - distances: List of distances between the robot and the landmarks in milimeters
+    - angles: List of angles between the robot and the landmarks in radians
+    """
     # Capture an image from the camera
     image = cam.capture_array("main")
 
@@ -84,16 +95,15 @@ def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length):
         # Estimate the pose of the markers
         rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(corners, marker_length, cam_matrix, coeff_vector)
 
-        print("rvecs: ", rvecs)
-        print("tvecs: ", tvecs)
-
         # Calculate the distance and angle between the robot and the landmarks
-
         distances = [np.linalg.norm(tvec) for tvec in tvecs]
         angles = [np.arctan2(tvec[0][2], tvec[0][0]) for tvec in tvecs]
 
-        print("Distance: ", distances)
-        print("Angle: ", angles)
+        # Convert distance to from meters to milimeters
+        distances = [distances[i] * 1000 for i in range(len(distances))]
+
+        print("Distance (mm): ", distances)
+        print("Angle (rad): ", angles)
 
         return distances, angles
     else:
