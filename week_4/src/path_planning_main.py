@@ -130,7 +130,7 @@ def main():
     final_route = rrt_algorithm.final_route
     print(final_route)
     for index, pos in enumerate(final_route):
-        if (index >= len(final_route)-2): break
+        if (index >= len(final_route)-1): break
         distance = np.linalg.norm([pos[0] - final_route[index+1][0], pos[1] - final_route[index+1][1]])
         angle = np.arctan2(pos[1] - final_route[index+1][1], pos[0] - final_route[index+1][0])
         degrees = np.degrees(angle)
