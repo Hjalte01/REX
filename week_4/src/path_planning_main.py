@@ -136,7 +136,7 @@ def main():
         degrees = np.degrees(angle)
         # walk_and_rotate(robot, distance, angle)
         print("Robot moved to: ", pos[0], pos[1])
-        print("distance: ", distance, "angle: ", angle)
+        print("distance: ", distance, "angle: ", degrees)
 
 
 main()
