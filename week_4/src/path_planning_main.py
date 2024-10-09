@@ -101,6 +101,11 @@ def get_landmark(cam, img_dict, cam_matrix, coeff_vector, marker_length):
         return None, None
     
 
+def walk_and_rotate(robot, distance, angle):
+    # Walk and rotate the robot
+    robot.rotate(angle)
+    robot.move(distance)
+
 
 # Main loop for the path planning
 def main():
@@ -123,5 +128,5 @@ def main():
 
     rrt_algorithm.RRT()
 
-
+    print(rrt_algorithm.get_final_route())
 
