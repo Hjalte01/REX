@@ -135,7 +135,7 @@ def main():
     for index in range(len(final_route)):
         if (index >= len(final_route)-1): break
         distance = np.linalg.norm([final_route[index][0] - final_route[index+1][0], final_route[index][1] - final_route[index+1][1]])
-        angle = np.arctan2(final_route[index][1] - final_route[index+1][1], final_route[index][0] - final_route[index+1][0])
+        angle = np.arctan2(final_route[index][0] - final_route[index+1][0], final_route[index][1] - final_route[index+1][1])
         degrees = np.degrees(angle)
         # walk_and_rotate(arlo, distance, angle)
         print("Robot moved to: ", final_route[index+1][0], final_route[index+1][1])
