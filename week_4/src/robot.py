@@ -226,10 +226,10 @@ class Robot(object):
 # main section
 
 
-    def rotate(self, deg):
+    def rotate(self, input_deg):
         """ Rotate robot by deg, if deg > 0 rotate right, if deg < 0 rotate left"""
-        
-        deg = deg - self.current_angle
+        print("current_angle: ", self.current_angle, "\ninput deg: ", deg)
+        deg = input_deg - self.current_angle
         self.current_angle = deg
         print("rotated deg by: ", deg)
         if deg > 0:
