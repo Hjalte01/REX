@@ -228,7 +228,7 @@ class Robot(object):
         sleep(self.turn_1_degree*deg)
 
 
-    def forward(self, len):
+    def move(self, len):
         distance = self.forward_to_meter * len
         self.go_diff(self.leftSpeed, self.rightSpeed, 1, 1)
         sleep(distance)
