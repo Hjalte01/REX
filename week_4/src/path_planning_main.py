@@ -143,6 +143,4 @@ def main():
         print("Robot moved to: ", arlo.current_angle)
 
 
-# main()
-arlo = robot.Robot()
-arlo.test_rotate()
+main()
