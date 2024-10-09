@@ -1,5 +1,5 @@
 
-from grid import Grid, Cell
+from grid import Grid, Cell, Pos
 
 import numpy as np
 import math
@@ -196,19 +196,22 @@ class RRT(object):
 #--------------------------------------------------------
 # run RRT example:
 #--------------------------------------------------------
-# # set 
-# grid_size = 6
-# robot_size = 0.45
+# set 
+grid_size = 8 # mm x mm 
+cell_size = 450 # mm
 
-# grid = Grid(robot_size, grid_size)
-# # add obstacles
-# # grid.obstacles = [Cell(12,12,True), Cell(12,13,True), Cell(12,14,True), Cell(12,15,True), Cell(12,16,True), Cell(12,17,True), Cell(13,12,True), Cell(14,12,True), Cell(15,12,True), Cell(16,12,True), Cell(17,12,True), Cell(17,13,True), Cell(17,14,True), Cell(17,15,True), Cell(17,16,True), Cell(17,17,True), Cell(13,17,True), Cell(14,17,True), Cell(15,17,True), Cell(16,17,True)]
-# grid.update_grid()
-# rrt = RRT(grid, robot_size)
+grid = Grid(cell_size, grid_size)
+# add obstacles
+# grid.obstacles = [Cell(12,12,True), Cell(12,13,True), Cell(12,14,True), Cell(12,15,True), Cell(12,16,True), Cell(12,17,True), Cell(13,12,True), Cell(14,12,True), Cell(15,12,True), Cell(16,12,True), Cell(17,12,True), Cell(17,13,True), Cell(17,14,True), Cell(17,15,True), Cell(17,16,True), Cell(17,17,True), Cell(13,17,True), Cell(14,17,True), Cell(15,17,True), Cell(16,17,True)]
+grid.update_grid()
+rrt = RRT(grid, cell_size)
+
+grid.add_obstacle(rrt.init_cell, Pos(2, 0))
+rrt.draw_graph()
 # rrt.RRT()
 
-# print(rrt.final_route)
-# print(len(rrt.final_route))
+print(rrt.final_route)
+print(len(rrt.final_route))
 
 
 
