@@ -28,6 +28,7 @@ class Robot(object):
         self.rightSpeed = 40
         self.forward_to_meter = 4.5
         self.turn_1_degree = 1.5 / 90
+        self.current_angle = 0
         # out changes
         
         #self.serialRead = serial.Serial(self.port,9600, timeout=1) # 1 sec. timeout, wait until data is received or until timeout
@@ -217,6 +218,9 @@ class Robot(object):
 
     def rotate(self, deg):
         """ Rotate robot by deg, if deg > 0 rotate right, if deg < 0 rotate left"""
+        
+        deg = deg - self.current_angle
+        self.current_angle = deg
         if deg > 0:
             self.go_diff(self.leftSpeed*1.87, self.rightSpeed, 1, 0)
         else:
