@@ -27,7 +27,7 @@ class Robot(object):
         self.leftSpeed = 40*self.left_motor_diff
         self.rightSpeed = 40
         self.forward_to_meter = 4.5
-        self.turn_1_degree = 1.37 / 90
+        self.turn_1_degree = 1.36 / 90
         self.current_angle = 0
         # out changes
         
