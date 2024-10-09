@@ -131,8 +131,8 @@ def main():
     print(final_route)
     for index, pos in enumerate(final_route):
         if (index >= len(final_route)-2): break
-        distance = np.linalg.norm([pos.x - final_route[index+1].x, pos.y - final_route[index+1].y])
-        angle = np.arctan2(pos[1] - final_route[index+1].y, pos[0] - final_route[index+1].x)
+        distance = np.linalg.norm([pos[0] - final_route[index+1][0], pos[1] - final_route[index+1][1]])
+        angle = np.arctan2(pos[1] - final_route[index+1][1], pos[0] - final_route[index+1][0])
         # walk_and_rotate(robot, distance, angle)
         print("Robot moved to: ", pos[0], pos[1])
         print("distance: ", distance, "angle: ", angle)
