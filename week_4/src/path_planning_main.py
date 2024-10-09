@@ -137,7 +137,7 @@ def main():
         distance = np.linalg.norm([final_route[index][0] - final_route[index+1][0], final_route[index][1] - final_route[index+1][1]])
         angle = np.arctan2(final_route[index+1][0] - final_route[index][0], final_route[index+1][1] - final_route[index][1])
         degrees = np.degrees(angle)
-        walk_and_rotate(arlo, distance * rrt_algorithm.robot_size, angle)
+        walk_and_rotate(arlo, distance * rrt_algorithm.robot_size, degrees)
         print("Robot moved to: ", final_route[index+1][0], final_route[index+1][1])
         print("distance: ", distance, "angle: ", degrees)
         print("Robot moved to: ", arlo.current_angle)
