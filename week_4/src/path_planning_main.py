@@ -129,9 +129,10 @@ def main():
     rrt_algorithm.RRT()
     final_route = rrt_algorithm.final_route
     print(final_route)
-    for pos in final_route:
-        distance = np.linalg.norm([pos.x - rrt_algorithm.parent_cell.x, pos.y - rrt_algorithm.parent_cell.y])
-        angle = np.arctan2(pos[1] - rrt_algorithm.parent_cell.y, pos[0] - rrt_algorithm.parent_cell.x)
+    for index, pos in enumerate(final_route):
+        if (index >= len(final_route-2)): break
+        distance = np.linalg.norm([pos.x - final_route[index+1].x, pos.y - final_route[index+1].y])
+        angle = np.arctan2(pos[1] - final_route[index+1].y, pos[0] - final_route[index+1].x)
         # walk_and_rotate(robot, distance, angle)
         print("Robot moved to: ", pos[0], pos[1])
         print("distance: ", distance, "angle: ", angle)
