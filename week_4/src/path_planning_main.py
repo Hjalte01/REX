@@ -107,8 +107,11 @@ def walk_and_rotate(robot, distance, angle):
     robot.move(distance)
 
 
+
 # Main loop for the path planning
 def main():
+    robot = robot.Robot()
+
     # Create the grid
     grid_size = 20
     cell_size = 1
@@ -137,6 +140,7 @@ def main():
         # walk_and_rotate(robot, distance, angle)
         print("Robot moved to: ", pos[0], pos[1])
         print("distance: ", distance, "angle: ", degrees)
+        print("Robot moved to: ", robot.current_angle)
 
 
 main()

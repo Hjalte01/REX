@@ -220,7 +220,7 @@ class Robot(object):
         """ Rotate robot by deg, if deg > 0 rotate right, if deg < 0 rotate left"""
         
         deg = deg - self.current_angle
-        self.current_angle += deg
+        self.current_angle = deg
         if deg > 0:
             self.go_diff(self.leftSpeed*1.87, self.rightSpeed, 1, 0)
         else:
