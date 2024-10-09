@@ -136,8 +136,9 @@ class RRT(object):
         while (self.parent_cell.parent != None):
             self.parent_cell = self.parent_cell.parent
             final_route.append([self.parent_cell.x, self.parent_cell.y])
-        print("final_route: ", final_route)
+        final_route = final_route.reverse()
         self.final_route = final_route
+        print("final_route: ", final_route)
     
   
     def print_route(self):
