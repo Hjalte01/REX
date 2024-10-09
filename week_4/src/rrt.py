@@ -23,9 +23,7 @@ class RRT(object):
         
         # Final route and parent list
         self.route = []
-        self.parent_list = []
         self.route.append(self.init_cell)
-        self.parent_list.append(0)
 
         # Visited cells
         self.visited_cells = set()
@@ -135,7 +133,7 @@ class RRT(object):
         
 
     def get_final_route(self):
-        final_route = [[self.final_cell.x, self.final_cell.x], [self.parent_cell.x, self.parent_cell.y]]
+        final_route = [[self.final_cell.x, self.final_cell.y], [self.parent_cell.x, self.parent_cell.y]]
         while (self.parent_cell.parent != None):
             self.parent_cell = self.parent_cell.parent
             final_route.append([self.parent_cell.x, self.parent_cell.y])
