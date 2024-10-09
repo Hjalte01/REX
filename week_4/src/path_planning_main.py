@@ -128,10 +128,8 @@ def main():
 
     rrt_algorithm.RRT()
 
+    print(rrt_algorithm.final_route)
 
-    print(rrt_algorithm.get_final_route())
-    print(rrt_algorithm.init_cell.x, rrt_algorithm.init_cell.y)
-    print(rrt_algorithm.final_cell.x, rrt_algorithm.final_cell.y)
 
 
 main()

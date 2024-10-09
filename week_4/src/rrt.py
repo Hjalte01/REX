@@ -23,6 +23,7 @@ class RRT(object):
         
         # Final route and parent list
         self.route = []
+        self.final_route = []
         self.route.append(self.init_cell)
 
         # Visited cells
@@ -107,9 +108,7 @@ class RRT(object):
             return True
         return False
 
-    def draw_graph(self):
-        final_route = self.get_final_route()
-
+    def draw_graph(self):        
         for i in range(self.grid.grid_size):
             for j in range(self.grid.grid_size):
                 if self.grid.grid[i][j].occupied == True:
@@ -122,8 +121,8 @@ class RRT(object):
         plt.plot(self.init_cell.x, self.init_cell.y, color = "green", marker = "s")
         plt.plot(self.final_cell.x, self.final_cell.y, color = "red", marker = "s")
 
-        for i in range(int(len(final_route))-1):
-            plt.plot([final_route[i][0], final_route[i+1][0]], [final_route[i][1], final_route[i+1][1]], "r")
+        for i in range(int(len(self.final_route))-1):
+            plt.plot([self.final_route[i][0], self.final_route[i+1][0]], [self.final_route[i][1], self.final_route[i+1][1]], "r")
 
         plt.savefig("RRT.png")
         plt.show()
@@ -137,7 +136,8 @@ class RRT(object):
         while (self.parent_cell.parent != None):
             self.parent_cell = self.parent_cell.parent
             final_route.append([self.parent_cell.x, self.parent_cell.y])
-        return final_route
+        print("final_route: ", final_route)
+        self.final_route = final_route
     
   
     def print_route(self):
@@ -174,7 +174,12 @@ class RRT(object):
             # Generate new vertex according to closest cell
             self.new_point_generate(closest_cell)
 
+        # get the final route
+        self.get_final_route()
+        
         print("iterations: ", i)
+
+
         
         
         # print(self.final_route())
@@ -200,6 +205,11 @@ class RRT(object):
 # grid.update_grid()
 # rrt = RRT(grid, robot_size)
 # rrt.RRT()
+
+# print(rrt.final_route)
+# print(len(rrt.final_route))
+
+
 
 
 
