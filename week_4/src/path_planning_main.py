@@ -131,9 +131,9 @@ def main():
     print(final_route)
     for pos in final_route:
         distance = np.linalg.norm([pos.x - rrt_algorithm.parent_cell.x, pos.y - rrt_algorithm.parent_cell.y])
-        angle = np.arctan2(pos.y - rrt_algorithm.parent_cell.y, pos.x - rrt_algorithm.parent_cell.x)
+        angle = np.arctan2(pos[1] - rrt_algorithm.parent_cell.y, pos[0] - rrt_algorithm.parent_cell.x)
         # walk_and_rotate(robot, distance, angle)
-        print("Robot moved to: ", pos.x, pos.y)
+        print("Robot moved to: ", pos[0], pos[1])
         print("distance: ", distance, "angle: ", angle)
 
 
