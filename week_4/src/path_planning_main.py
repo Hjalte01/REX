@@ -123,7 +123,7 @@ def main():
     if distances is not None:
         for i in range(len(distances)):
             pos = grid.Pos(distances[i], angles[i])
-            grid_obj.add_obstacle(rrt.init_cell, pos)
+            grid_obj.add_obstacle(rrt_algorithm.init_cell, pos)
     
 
     rrt_algorithm.RRT()
