@@ -21,6 +21,14 @@ class Robot(object):
            to control the robot directly from your labtop (instead of from the on-board raspberry 
            pi). The value of port should point to the USB port on which the robot Arduino is connected."""
         self.port = port
+
+        # Our changes
+        self.left_motor_diff = 0.875
+        self.leftSpeed = 40*self.left_motor_diff
+        self.rightSpeed = 40
+        self.forward_to_meter = 4.5
+        self.turn_1_degree = 1.5 / 90
+        # out changes
         
         #self.serialRead = serial.Serial(self.port,9600, timeout=1) # 1 sec. timeout, wait until data is received or until timeout
         self.serialRead = serial.Serial(self.port,9600, timeout=None) # No timeout, wait forever or until data is received
@@ -203,3 +211,20 @@ class Robot(object):
         cmd='y' + str(turntime) + '\n'
         return self.send_command(cmd)
         
+
+
+# our changes -------------------------------------
+
+    def rotate(self, deg):
+        """ Rotate robot by deg, if deg > 0 rotate right, if deg < 0 rotate left"""
+        if deg > 0:
+            self.go_diff(self.leftSpeed*1.87, self.rightSpeed, 1, 0)
+        else:
+            self.go_diff(self.leftSpeed*1.87, self.rightSpeed, 0, 1)
+        sleep(self.turn_1_degree*deg)
+
+
+    def forward(self, len):
+        distance = self.forward_to_meter * len
+        self.go_diff(self.leftSpeed, self.rightSpeed, 1, 1)
+        sleep(distance)
