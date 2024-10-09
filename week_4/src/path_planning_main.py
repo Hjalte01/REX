@@ -140,7 +140,6 @@ def main():
         walk_and_rotate(arlo, distance * rrt_algorithm.robot_size, degrees)
         print("Robot moved to: ", final_route[index+1][0], final_route[index+1][1])
         print("distance: ", distance, "angle: ", degrees)
-        print("Robot moved to: ", arlo.current_angle)
 
 
 main()

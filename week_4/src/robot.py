@@ -231,6 +231,7 @@ class Robot(object):
         
         deg = deg - self.current_angle
         self.current_angle = deg
+        print("rotated deg by: ", deg)
         if deg > 0:
             self.go_diff(self.leftSpeed, self.rightSpeed, 1, 0)
         else:
