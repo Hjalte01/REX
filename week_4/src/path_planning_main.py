@@ -132,13 +132,14 @@ def main():
     rrt_algorithm.RRT()
     final_route = rrt_algorithm.final_route
     print(final_route)
-    for index, pos in enumerate(final_route):
+    for index in len(final_route):
         if (index >= len(final_route)-1): break
-        distance = np.linalg.norm([pos[0] - final_route[index+1][0], pos[1] - final_route[index+1][1]])
-        angle = np.arctan2(pos[0] - final_route[index+1][0], pos[1] - final_route[index+1][1])
+        distance = np.linalg.norm([final_route[index][0] - final_route[index+1][0], final_route[index][1] - final_route[index+1][1]])
+        angle = np.arctan2(final_route[index][0] - final_route[index+1][0], final_route[index][1] - final_route[index+1][1])
         degrees = np.degrees(angle)
         # walk_and_rotate(arlo, distance, angle)
-        print("Robot moved to: ", pos[0], pos[1])
+        print("Robot moved from: ", final_route[index][0], final_route[index][1])
+        print("Robot moved to: ", final_route[index+1][0], final_route[index+1][1])
         print("distance: ", distance, "angle: ", degrees)
         print("Robot moved to: ", arlo.current_angle)
 
