@@ -17,7 +17,7 @@ class RRT(object):
         self.diag_step_size = math.sqrt(self.step_size**2 + self.step_size**2)
         self.init_cell = Cell(self.grid.grid_size/2, self.grid.grid_size/2, True)
         self.parent_cell = self.init_cell
-        self.final_cell = Cell(self.grid.grid_size/2, self.grid.grid_size-1, True)
+        self.final_cell = Cell(self.grid.grid_size/2-1, self.grid.grid_size-1, True)
         self.rnd_cell = None
         self.random_cell()
         
