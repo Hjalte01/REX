@@ -32,8 +32,8 @@ class Grid(object):
         kate_1 = obstacle_pos.real_length * np.cos(obstacle_pos.real_angel)
         kate_2 = obstacle_pos.real_length * np.sin(obstacle_pos.real_angel)
 
-        x = kate_1 // self.cell_size
-        y = kate_2 // self.cell_size
+        x = int(kate_1 // self.cell_size)
+        y = int(kate_2 // self.cell_size)
 
         print("x: ", x, "y: ", y)
         print("r-x: ", robot_cell.x, "r-y: ", robot_cell.y)
