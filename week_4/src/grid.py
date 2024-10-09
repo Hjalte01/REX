@@ -4,8 +4,8 @@ class Cell(object):
     
     def __init__(self, x, y, flag = False):
         super(Cell, self).__init__()
-        self.x = x
-        self.y = y
+        self.x = int(x)
+        self.y = int(y)
         self.occupied = flag
         self.parent = None
         
