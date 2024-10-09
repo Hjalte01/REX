@@ -223,6 +223,9 @@ class Robot(object):
         
         self.rotate(360)
 
+    def test_move(self):
+        self.move(3)
+        
 # main section
 
 
