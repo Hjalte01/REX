@@ -35,6 +35,8 @@ class Grid(object):
         x = kate_1 // self.cell_size
         y = kate_2 // self.cell_size
 
+        print("x: ", x, "y: ", y)
+        print("r-x: ", robot_cell.x, "r-y: ", robot_cell.y)
         self.grid[robot_cell.x+x][robot_cell.y+y].occupied = True
         self.obstacles.append(self.grid[robot_cell.x+x][robot_cell.y+y])
 
